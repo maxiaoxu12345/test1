@@ -133,7 +133,6 @@ public class EmployeeService {
 	 */
 	@Transactional
 	public List<Employee> getOwnEmps(int getdId) {
-		
 		return eMapper.getOwnEmps(getdId);
 	}
 

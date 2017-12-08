@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +39,7 @@ import com.eccl.ssm.Service.EmployeeService;
  */
 @Controller
 public class EmployeeController {
-	private static final String Employee = null;
+	
 	@Autowired
 	private  EmployeeService eService;
 	
@@ -62,15 +63,33 @@ public class EmployeeController {
 	
 	public String login(@RequestParam("empName")String empName,
 			            @RequestParam("pwd")String pwd,
+			            @RequestParam(value = "depart" ,required=false)String depart,
 			            HttpServletResponse response,
-			            HttpSession session) throws IOException{
+			            HttpSession session,
+			            Model model) throws IOException{
 		
 		
-		
+		System.out.println(empName);
 		Map<String, String> empIn= new HashMap<String, String>();
+		if (empName.equals("张磊")) {
+			if (depart == null) {
+				model.addAttribute("msg", "请选择您的部门");
+				return "login";
+			}else{
+				System.out.println("部门:"+depart);
+				return "login";
+			}
+		}
+		
+		
+		
+		
+		
+		
 		empIn.put("empName", empName);
 		empIn.put("pwd", pwd);
 		Employee loginEmp = eService.Login(empIn);
+		System.out.println("登录:" +loginEmp);
 		if (loginEmp==null) {
 				return "login";
 		} 

@@ -5,7 +5,6 @@
 <html>
   <head>
     <title>欢迎使用~！</title>
-	<link rel="stylesheet" type="text/css" href="${ctx}/static/css/styles.css" >
   </head>
   <body style="padding-top:40px;">
 	 <h1>欢迎您</h1>
