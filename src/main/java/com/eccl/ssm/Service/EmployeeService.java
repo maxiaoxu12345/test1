@@ -111,6 +111,8 @@ public class EmployeeService {
 		} 
 		return true;
 	}
+	
+	
 
 
 	/**
@@ -274,16 +276,16 @@ public class EmployeeService {
 			int failCount = 0;  //舍弃 最高分/最低分   个数
 			//6.计算员工互评得分
 			if (0 < eTestTotal && eTestTotal <= 5) {
-				System.out.println("<5");
+				/*System.out.println("<5");*/
 				eMapper.calculateEmpsScoore(eTestTotal , employee.geteName() );  //计算5人(含5人)评分的平均值
 			} else if( eTestTotal > 5) {
-				System.out.println(">5");
+				/*System.out.println(">5");*/
                   if (eTestTotal%10 == 0) {
                 	  failCount = eTestTotal/10;
 				  }else {
 					  failCount = eTestTotal/10 +1 ;
 				  }
-                  System.out.println("舍弃个数："+ failCount);
+                 /* System.out.println("舍弃个数："+ failCount);*/
                   eMapper.calculateEmpsMorescore(failCount, eTestTotal-2*failCount , employee.geteName());  //计算大于5人（去掉最高、最低分） 评分的平均值
 			}else {
 				/*System.out.println("没有其他员工给他评分");*/

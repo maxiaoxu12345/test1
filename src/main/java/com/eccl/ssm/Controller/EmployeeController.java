@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,13 +58,15 @@ public class EmployeeController {
 	 * @param pwd  登录密码
 	 * @throws IOException 
 	 */
-	@RequestMapping("/login.action")
+	@RequestMapping(value="/login.action", method = RequestMethod.POST)
+	
 	public String login(@RequestParam("empName")String empName,
 			            @RequestParam("pwd")String pwd,
 			            HttpServletResponse response,
 			            HttpSession session) throws IOException{
 		
-		System.out.println("name:"+empName+":"+"pwd:"+pwd);
+		
+		
 		Map<String, String> empIn= new HashMap<String, String>();
 		empIn.put("empName", empName);
 		empIn.put("pwd", pwd);
@@ -105,6 +108,8 @@ public class EmployeeController {
 	@RequestMapping("/goTest.action")
     public ModelAndView goTest(HttpServletRequest request, HttpSession session){
 		Employee emp = (Employee) request.getSession().getAttribute("user");
+		Depart dt = emp.getDepart();
+		dt.getdName();
 	    List<Employee> empsByDepart = eService.getEmpsByDepart(emp.getDepart().getdName());
 	   
 	 
@@ -112,6 +117,7 @@ public class EmployeeController {
 	   ModelAndView mView=new ModelAndView();
 	   mView.setViewName("content");
 	   mView.addObject("emps", empsByDepart);
+	   mView.addObject("dep", emp.getDepart().getdName());
 	   List<Depart> departs=eService.getAllDepart();
 	   session.setAttribute("departs", departs);
 	   return mView;
@@ -127,6 +133,7 @@ public class EmployeeController {
 		ModelAndView mView = new ModelAndView();
 		mView.setViewName("content");
 		mView.addObject("emps", lists);
+		mView.addObject("dep", departName);
 		return mView;
 	}
 	
@@ -142,30 +149,40 @@ public class EmployeeController {
 	public String saveTest(@RequestParam("name")String testName,
 			               @RequestParam("score")double score,
 			               HttpServletRequest request){
+		//TODO:
+		//服务器端验证
+		
+		if ( 0 > score || score >100) {
+			return "0" ;
+		}
+		
 		
 		Map<String, Object> map = new HashMap<>();
+		
 		Employee emp = (Employee) request.getSession().getAttribute("user");
 		String name=emp.geteName();
+		
 		String jobType = emp.geteJobType();
-		System.out.println("hah"+name+"职位："+jobType+",name:"+testName+":分"+score);
+	
         Date date = new Date();
-        //System.out.println(date);
+       
       
 		map.put("name", name);
 		map.put("testName", testName);
+		
 		map.put("score", score);
 		map.put("date", date);
-		/* System.out.println("部门："+emp.getDepart().getdId());*/
+		
 	    map.put("departId", emp.getDepart().getdId());
 		
 		//还要将当前用户的职位类型存起来，便于统计计算
 		List<Role> roles = eService.getAllRole();
 		
 	    for (Role role : roles) {
-	    /*	System.out.println(role);*/
+	   
 			if (role.getrName().equals(jobType)) {
 				map.put("jobType", role.getrId());  //放到map中
-				/*System.out.println(map.get("jobType"));*/
+				
 			}
 		}
 	  
@@ -217,7 +234,7 @@ public class EmployeeController {
 			empScore = new EmpScore();
 			empScore.setEmpName(empName);
 		}
-	    System.out.println(empScore);
+	   /* System.out.println(empScore);*/
 	    mView.addObject("empScore", empScore);
 	    return mView;
 	}
@@ -230,14 +247,41 @@ public class EmployeeController {
 	public ModelAndView saveEmpScore(EmpScore empScore,HttpServletRequest request){
 		System.out.println("保存评测员工："+empScore);
 		
+		ModelAndView mView = new ModelAndView();
+		mView.setViewName("redirect:/goDirectorTest.action");
+		
+		
+		
+		double scoreAchievement = empScore.getScoreAchievement();
+		double scoreFinish = empScore.getScoreFinish();
+		double scoreFinance = empScore.getScoreFinance();
+		double scoreHygiene = empScore.getScoreHygiene();
+		double scoreAttendance = empScore.getScoreAttendance();
+		double scoreBehavior = empScore.getScoreBehavior();
+		double scorePlan = empScore.getScorePlan();
+		double scoreContribution = empScore.getScoreContribution();
+		double scoreFault = empScore.getScoreFault();
+		if (scoreAchievement < 0 || scoreAchievement>100 || 
+				scoreFinish < 0 || scoreFinish>100 ||
+				scoreFinance < 0 || scoreFinance>100 ||
+				scoreHygiene < 0 || scoreHygiene>100 ||
+				scoreAttendance < 0 || scoreAttendance>100 ||
+				scoreBehavior < 0 || scoreBehavior>100 ||
+				scorePlan < 0 || scorePlan>100 ||
+				scoreContribution < 0 || scoreContribution % 10 !=0 ||
+				scoreFault > 0 || scoreFault % 10 !=0 ) {
+			System.err.println("评分格式不正确");
+			return mView;
+		}
+		
 		Employee emp = (Employee)request.getSession().getAttribute("user");
 		empScore.setDirector(emp.geteName());
+		
 		
 		//将评分记录保存
 		eService.saveScoreRecord(empScore);
 		
-		ModelAndView mView = new ModelAndView();
-		mView.setViewName("redirect:/goDirectorTest.action");
+		
 		
 		return mView;
 		

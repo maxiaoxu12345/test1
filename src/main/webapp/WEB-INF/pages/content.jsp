@@ -27,6 +27,9 @@
 						if(data=='1'){
 							 alert("已保存"); 
 							return false;
+						}else{
+							alert("保存失败");
+							return false;
 						}
 					};
 					var type = "json"; 
@@ -54,8 +57,8 @@
 			<div class= "table-responsive " style="padding-top: 2px;">
 			<div class="navbar-fixed-top">
 			   <span>选择部门:</span> <select name="ou" id="selDepart" >
-					    <option value="${user.depart.dName}">
-							${user.depart.dName}
+					    <option value="${dep}">
+							${dep}
 						</option>
 					    <c:forEach items="${departs}" var="dep">
 					      <c:if test="${dep.dName ne '系统管理员' }">

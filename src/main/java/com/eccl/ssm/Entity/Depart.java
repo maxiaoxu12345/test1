@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @date 2017年12月4日 下午5:30:44
  *
  */
-public class Depart implements Serializable{
+public class Depart {
 	private int dId;
 	private String  dName;
 	public Depart() {
