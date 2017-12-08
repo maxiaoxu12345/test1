@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+		<!DOCTYPE configuration
+		PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-config.dtd">
+		<!-- Mybatis的总控文件 -->
+		<configuration>
+		    <!-- settings标签可以设置多个属性值 -->
+		     <settings>
+		         <!-- setting标签 负责每一个属性的设置
+		         		name：属性的名称
+		         		value：属性的值
+		         -->
+		         <!-- 开启驼峰式命名 -->
+		         <setting name="mapUnderscoreToCamelCase" value="true"/>
+		         <!-- 开启懒加载机制 ，默认值为false -->
+		         <setting name="lazyLoadingEnabled" value="true"/>
+		         <!-- 关闭全加载 -->
+		         <setting name="aggressiveLazyLoading" value="false"/>
+		     </settings>
+		</configuration>

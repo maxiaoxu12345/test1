@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+    <!-- 配置扫描的包 -->
+     <context:component-scan base-package="com.eccl.ssm">
+     		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+     		<context:exclude-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>   		
+     </context:component-scan>
+     
+     <!-- 加载资源文件 -->
+     <context:property-placeholder location="classpath:jdbc.properties"/>
+     
+     <!-- 配置数据源 -->
+     <bean id="comboPooledDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+         <property name="user" value="${jdbc.username}"></property>
+         <property name="password" value="${jdbc.password}"></property>
+         <property name="jdbcUrl" value="${jdbc.url}"></property>
+         <property name="driverClass" value="${jdbc.driver}"></property>
+        
+     </bean>
+     
+      <!-- 配置JDBCTemplate -->
+      <bean class="org.springframework.jdbc.core.JdbcTemplate">
+      		<property name="dataSource" ref="comboPooledDataSource"></property>
+      </bean>
+     
+     <!-- 配置事务管理器 -->
+     <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+     		<property name="dataSource" ref="comboPooledDataSource" ></property>
+     </bean>
+     
+     <!-- 开启基于注解的事务 -->
+     <tx:annotation-driven transaction-manager="dataSourceTransactionManager"/>
+     
+     <!-- 配置Mybatis -->
+     <bean  id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+     		<property name="dataSource" ref="comboPooledDataSource"></property>
+     		<property name="configLocation" value=""></property>
+     </bean>
+     <!-- 配置扫描的包 -->
+     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+     	<property name="basePackage" value="com.eccl.ssm.Mapper"></property>
+     </bean>
+  
+    <!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->  
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">  
+        <property name="defaultEncoding" value="utf-8" />  
+        <!-- 指定所上传文件的总大小不能超过10485760000B。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->  
+        <property name="maxUploadSize" value="10485760000" />  
+        <property name="maxInMemorySize" value="40960" />  
+    </bean>  
+     
+</beans>

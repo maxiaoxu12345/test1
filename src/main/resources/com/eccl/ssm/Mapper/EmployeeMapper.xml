@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Sql的映射文件 -->
+	<mapper namespace="com.eccl.ssm.Mapper.EmployeeMapper">
+	  <resultMap type="com.eccl.ssm.Entity.Employee" id="getAllEmpsMap">
+	    <result column="e_name" property="eName" />
+	    <result column="e_d_id" property="depart.dId" />
+	    <result column="departName" property="depart.dName"/>
+	    <result column="roleName" property="eJobType" />
+	    <result column="director_score" property="directorScore" />
+	    <result column="managers_score" property="managersScore" />
+	    <result column="emps_score" property="empsScore" />
+	    <result column="other_score" property="otherScore" />
+	    <result column="e_pwd" property="pwd" />
+	    <result column="total_score" property="totalScore" />
+	    <result column="business_score" property="businessScore" />
+	    <result column="rules_score" property="rulesScore" />
+	    <result column="event_score" property="eventScore" />
+	    <result column="team_score" property="teamScore" />
+	    <result column="manage_score" property="manageScore" />
+	  </resultMap>
+	  
+	  <!-- public List<Employee> getEmps(); -->
+	  <select id="getEmps" resultMap="getAllEmpsMap">
+	     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score
+	     from eccl_emp e
+	     left join eccl_role r
+	     on e.e_job_type = r.r_id
+	     left join eccl_depart d
+	     on e.e_d_id = d.d_id
+	  </select>
+	
+	  
+	  <!-- public List<Employee> getEmpsByDepart(String departName); -->
+	  <select id="getEmpsByDepart" resultMap="getAllEmpsMap">
+		     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score
+		     from eccl_emp e
+		     left join eccl_role r
+		     on e.e_job_type = r.r_id
+		     left join eccl_depart d
+		     on e.e_d_id = d.d_id
+			 where d.d_name=#{departName}
+	  </select>
+	  
+	  
+	  <!-- public Employee goLogin(String empName); -->
+	  <select id="goLogin" resultMap="getAllEmpsMap">
+	     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,e_pwd
+	     from eccl_emp e
+	     left join eccl_role r
+	     on e.e_job_type = r.r_id
+	     left join eccl_depart d
+	     on e.e_d_id = d.d_id
+	     where e_name=#{empName}
+	  </select>
+	  
+	  <resultMap type="com.eccl.ssm.Entity.Depart" id="getAllDepartMap">
+	    <id column="d_id" property="dId"/>
+	    <result column="d_name" property="dName"/>
+	  </resultMap>
+	  <!-- public List<Depart> getAllDepart(); -->
+	  <select id="getAllDepart" resultMap="getAllDepartMap">
+	     SELECT * FROM eccl_depart;
+	  </select>
+	  
+	  <!-- public void saveScore(Map<String, Object> map); -->
+	  <insert id="saveScore">
+	     insert into eccl_test(name, job_type,test_name,score,date,depart_id)  VALUES(#{name},#{jobType},#{testName},#{score},#{date},#{departId});
+	  </insert>
+	  
+	  <!-- public void updateScore(Map<String, Object> map); -->
+	  <update id="updateScore">
+	    update eccl_test
+	    set score=#{score} , date = #{date}
+	    where name=#{name} and test_name = #{testName}
+	  </update>
+	  
+	  <!-- 系统复位 -->
+	 <update id="reSetSystem">
+	   update eccl_emp
+       set director_score=0.0,managers_score=0.0,emps_score=0.0,other_score=0.0
+	 </update>
+	 
+	 <!-- public int isRecored(Map<String, Object> map); -->
+	 <select id="isRecored" resultType="int">
+	    SELECT count(*) as total
+		from eccl_test
+		where name=#{name} and test_name = #{testName}
+	 </select>
+	 
+	 <!-- public List<Employee> getOwnEmps(int getdId); -->
+	 <select id="getOwnEmps"  resultMap="getAllEmpsMap">
+	    select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,e_pwd
+	     from eccl_emp e
+	     left join eccl_role r
+	     on e.e_job_type = r.r_id
+	     left join eccl_depart d
+	     on e.e_d_id = d.d_id
+		where e_d_id = #{getdId}
+	 </select>
+	 
+	 <resultMap type="com.eccl.ssm.Entity.EmpScore" id="getEmpScoreMap">
+	   <id column="id" property="id"/>
+	   <result column="directorName" property="director"/>
+	   <result column="empName" property="empName"/>
+	   <result column="score_achievement" property="scoreAchievement"/>
+	   <result column="score_finish" property="scoreFinish"/>
+	   <result column="score_finance" property="scoreFinance"/>
+	   <result column="score_hygiene" property="scoreHygiene"/>
+	   <result column="score_attendance" property="scoreAttendance"/>
+	   <result column="score_behavior" property="scoreBehavior"/>
+	   <result column="score_plan" property="scorePlan"/>
+	   <result column="score_contribution" property="scoreContribution"/>
+	   <result column="score_fault" property="scoreFault"/>
+	   
+	 
+	 
+	 
+	 </resultMap>
+	<!-- public Employee getEmpScore(String empName); -->
+	 <select id="getEmpScore" resultMap="getEmpScoreMap">
+	    SELECT * FROM `eccl_directorTest`
+		where empName=#{empName};
+	 </select>
+	 
+	 
+	 <!-- public void saveScoreRecord(EmpScore empScore); -->
+	 <insert id="saveScoreRecord">
+	     insert into eccl_directortest(directorName,
+	                                   
+										empName,
+										score_achievement,
+										score_finish,
+										score_finance,
+										score_hygiene,
+										score_attendance,
+										score_behavior,
+										score_plan,
+										score_contribution,
+										score_fault)
+          values(#{director},#{empName},#{scoreAchievement},#{scoreFinish},#{scoreFinance},#{scoreHygiene},#{scoreAttendance},#{scoreBehavior},#{scorePlan},#{scoreContribution},#{scoreFault});
+	 
+	 </insert>
+	 
+	 <!-- public void saveOtherScore(Map<String, Object> scoresMap); -->
+	 <update id="saveOtherScore">
+	    UPDATE eccl_emp
+		SET other_score = #{otherScore} ,business_score = #{businessScore} ,rules_score = #{rulesScore} ,event_score = #{eventScore}
+		where e_name = #{name}
+	 </update>
+	 
+	 
+	<!-- public void updateScoreRecord(EmpScore empScore); -->
+	<update id="updateScoreRecord">
+	   update eccl_directortest
+		set score_achievement= #{scoreAchievement} , score_finish = #{scoreFinish} , score_finance = #{scoreFinance},
+		    score_hygiene =#{scoreHygiene} , score_attendance = #{scoreAttendance},score_behavior =#{scoreBehavior} ,score_plan =#{scorePlan} ,
+		    score_contribution =#{scoreContribution} , score_fault =#{scoreFault} 
+		where directorName = #{director} and empName = #{empName}	
+	</update>
+	
+	<!-- public int getIsTest(EmpScore empScore); -->
+	<select id="getIsTest" parameterType="com.eccl.ssm.Entity.EmpScore" resultType="int">
+	   SELECT count(*)  as count
+		FROM `eccl_directortest`
+		where directorName = #{empScore.director} and empName = #{empScore.empName}
+	</select>
+	 
+	 
+	 <resultMap type="com.eccl.ssm.Entity.Role" id="getAllRoleMap">
+	   <id column="r_id" property="rId"/>
+	   <result column="r_name" property="rName"/>
+	 </resultMap>
+	 
+	 <!-- public List<Role> getAllRole(); -->
+	 <select id="getAllRole" resultMap="getAllRoleMap">
+	   SELECT * FROM `eccl_role`;
+	 </select>
+	 
+	 <!-- public void calculateDirectorScore(String geteName); -->
+	 <update id="calculateDirectorScore">
+	    update  eccl_emp
+		set director_score =  (
+                               select score from(
+                                                SELECT score FROM `eccl_test`
+                                                LEFT JOIN  eccl_emp e
+                                                on e.e_name = test_name
+		                                        where test_name=#{geteName}  and job_type = 1  and e.e_d_id = depart_id) T
+                               )
+		where e_name =#{geteName};
+	 </update>
+	 
+	 <!-- public int getOtherDirectorScoreCount(String geteName); -->
+	 <select id="getOtherDirectorScoreCount" resultType="int">
+	     SELECT count(*) as total FROM `eccl_test`
+                          LEFT JOIN  eccl_emp e
+                          on e.e_name = test_name
+		                  where test_name=#{geteName}  and ( ( job_type = 1 and e.e_d_id != depart_id ) or job_type =2 or job_type = 5 )
+	 
+	 </select>
+	 
+	 
+	 <!-- public void calculateOtherDirectorScore(int otherDirectorScoreCount, String geteName); -->
+	 <update id="calculateOtherDirectorScore">
+	    update  eccl_emp
+		set managers_score =  (
+     							select SUM(score)/#{0} 
+     							from(
+     								 SELECT score FROM `eccl_test`
+                         			 LEFT JOIN  eccl_emp e
+                          			 on e.e_name = test_name
+		                             where test_name=#{1}  and ( ( job_type = 1 and e.e_d_id != depart_id ) or job_type =2 or job_type = 5 ) ) T
+                               )
+		where e_name = #{1};
+	</update>
+	
+	
+	<!-- public int selectETestTotal(String geteName); -->
+	<select id="selectETestTotal" resultType="int">
+	  select count(*) as total from eccl_test
+      where test_name= #{geteName}  and  (job_type = 3 or job_type = 4 )  <!-- 此处将技术顾问对该员工的评分 就当成 普通员工互评 -->
+	</select>
+	 
+	 
+	 <!-- public void calculateEmpsScoore(int eTestTotal, String geteName); -->
+	 <update id="calculateEmpsScoore">
+	    update  eccl_emp
+		set emps_score = (select SUM(score)/#{0}
+                      from eccl_test
+                      where test_name= #{1}  and  ( job_type = 3 or job_type = 4 ) ) 
+        where e_name = #{1}
+	 </update>
+	 
+	 
+	 <!-- public void calculateEmpsMorescore(int failCount, int i, String geteName); -->
+	 <update id="calculateEmpsMorescore">
+	    update eccl_emp
+		set emps_score = (
+		    select sum(score)/#{1}
+				from(
+					select  score 
+					from eccl_test
+		            where test_name= #{2}  and  ( job_type = 3 or job_type = 4 ) 
+					ORDER BY score DESC
+					LIMIT #{0} , #{1}
+				)T
+		)
+	    where e_name = #{2}
+	 </update>
+	 
+	 <!-- public void calculateTotalScore(String geteName); -->
+	 <update id="calculateTotalScore">
+	    update eccl_emp
+		set total_score = manage_score + business_score + event_score
+		where e_name = #{geteName}
+	 </update>
+	 
+	 <!-- public List<Employee> getTestResult(); -->
+	 <select id="getTestResult" resultMap="getAllEmpsMap">
+	     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,total_score ,business_score, manage_score ,event_score
+	     from eccl_emp e
+	     left join eccl_role r
+	     on e.e_job_type = r.r_id
+	     left join eccl_depart d
+	     on e.e_d_id = d.d_id
+	     ORDER BY e_d_id
+	 </select>
+	 
+	 <!-- public Employee getEmpTableScore(String geteName); -->
+	 <select id="getEmpTableScore" resultMap="getAllEmpsMap">
+	     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,business_score,rules_score,team_score,manage_score,event_score,total_score
+	     from eccl_emp e
+	     left join eccl_role r
+	     on e.e_job_type = r.r_id
+	     left join eccl_depart d
+	     on e.e_d_id = d.d_id
+	     where e_name = #{geteName}
+	 
+	 </select>
+	 
+	 <!--public void calculateTeamScore(double teamScore, String geteName); -->
+	 <update id="calculateTeamScore">
+	       update eccl_emp
+           set team_score = #{0}
+           where e_name = #{1}
+	 </update>
+	 
+	 <!-- public void calculateManage(double d, String geteName); -->
+	 <update id="calculateManage">
+	       update eccl_emp
+           set manage_score = #{0}
+           where e_name = #{1}
+	 </update>
+	 
+	</mapper>
