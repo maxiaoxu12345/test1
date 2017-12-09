@@ -51,28 +51,31 @@ public class EmployeeService {
 
 
 	/**
-	 * @param departName
+	 * 通过部门id获取部门员工
+	 * @param departId
 	 * @return
 	 */
 	@Transactional
-	public List<Employee> getEmpsByDepart(String departName) {
-		List<Employee> lists= eMapper.getEmpsByDepart(departName);
+	public List<Employee> getEmpsByDepart(int departId) {
+		List<Employee> lists= eMapper.getEmpsByDepart(departId);
 		return lists;
 	}
 
 
 	/**
+	 * 登录
 	 * @param empIn
 	 * @return
 	 */
 	@Transactional
-	public Employee Login(Map<String, String> empIn) {
-		Employee employee=eMapper.goLogin(empIn.get("empName"));
+	public List<Employee> Login(Map<String, String> empIn) {
+		List<Employee> employeeList=eMapper.goLogin(empIn);
 		/*System.out.println("登录查询出来的人："+employee);*/
-		if (employee!=null && employee.getPwd().equals(empIn.get("pwd"))) {
+		
+		/*if (employee!=null && employee.getPwd().equals(empIn.get("pwd"))) {
 			return employee;
-		}
-		return null;
+		}*/
+		return employeeList;
 	}
 
 
@@ -323,6 +326,27 @@ public class EmployeeService {
 	public List<Role> getAllRole() {
 		
 		return eMapper.getAllRole();
+	}
+
+
+	/**
+	 * 通过Id获取当前部门
+	 * @param departId  当前部门id
+	 * @return
+	 */
+	public Depart getDepartById(int departId) {
+		
+		return eMapper.getDepart(departId);
+	}
+
+
+	/**
+	 * 根据员工id获取员工对象
+	 * @param testId
+	 * @return
+	 */
+	public Employee getEmpById(int testId) {
+		return eMapper.getEmpById(testId);
 	}
 
 

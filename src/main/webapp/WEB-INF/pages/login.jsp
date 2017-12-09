@@ -34,9 +34,9 @@
 
 </head>
 <body>
-   <div style="margin:0 auto;margin-top:20px; width: 90%; background-color: #F0F0F0;box-shadow: 10px 10px 5px #888888;height: 70%">
+   <div style="margin:0 auto;margin-top:20px; width: 60%;height:60%; background-color: #F0F0F0;box-shadow: 10px 10px 5px #888888;height: 70%">
      <form action="${pageContext.request.contextPath}/login.action" method="post" style="margin:100px 0px 0px 400px;padding-top: 69px;padding-bottom: 65px;" >
-       <table class="table table-hover table-bordered" style="width: 50%">
+       <table class="table table-hover table-bordered" style="width: 60%">
          <tr>
            <td style="text-align: center;">用户：</td>
            <td><input type="text" id="f_user_Dn" name="empName"  class="must" onfocus="$(this).val('')"></td>
@@ -47,14 +47,15 @@
              <input type="password" id="input_invisible" name="pwd"  class="must" onfocus="$(this).val('')">
            </td>
          </tr>
-         <c:if test="${!empty msg}">
+         <c:if test="${!empty allDeparts}">
 	          <tr  >
 		           <td style="text-align: center;">请选择您的部门:</td>
 		           <td>
-		             <select name="depart" class="must">
+		             <select name="departId" class="must">
 		                <option >请选择您的部门</option>
-		                <option value="1">实施部</option>
-		                <option value="2">IT运维部</option>
+		                <c:forEach  items="${allDeparts}" var="dep">
+		                  <option value="${dep.dId }">${dep.dName}</option>
+		                </c:forEach>
 		             </select>
 		           </td>
 	         </tr>

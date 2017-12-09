@@ -11,6 +11,8 @@ package com.eccl.ssm.Entity;
  *
  */
 public class Employee {
+	private int eId;
+	private String loginName;
 	private  String  eName;   
 	private  Depart depart;
 	private  String eJobType;   //职位类型
@@ -33,10 +35,13 @@ public class Employee {
 	}
 	
 	
-	public Employee(String eName, Depart depart, String eJobType, double directorScore, double managersScore,
-			double empsScore, double otherScore, String pwd, double totalScore, double businessScore, double rulesScore,
-			double eventScore, double teamScore, double manageScore) {
+
+	public Employee(int eId, String loginName, String eName, Depart depart, String eJobType, double directorScore,
+			double managersScore, double empsScore, double otherScore, String pwd, double totalScore,
+			double businessScore, double rulesScore, double eventScore, double teamScore, double manageScore) {
 		super();
+		this.eId = eId;
+		this.loginName = loginName;
 		this.eName = eName;
 		this.depart = depart;
 		this.eJobType = eJobType;
@@ -52,6 +57,31 @@ public class Employee {
 		this.teamScore = teamScore;
 		this.manageScore = manageScore;
 	}
+
+    
+
+	public int geteId() {
+		return eId;
+	}
+
+
+
+	public void seteId(int eId) {
+		this.eId = eId;
+	}
+
+
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
+	}
+
 
 
 	public String getPwd() {
@@ -163,14 +193,18 @@ public class Employee {
 		this.otherScore = otherScore;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Employee [eName=" + eName + ", depart=" + depart + ", eJobType=" + eJobType + ", directorScore="
-				+ directorScore + ", managersScore=" + managersScore + ", empsScore=" + empsScore + ", otherScore="
-				+ otherScore + ", pwd=" + pwd + ", totalScore=" + totalScore + ", businessScore=" + businessScore
-				+ ", rulesScore=" + rulesScore + ", eventScore=" + eventScore + "]";
+		return "Employee [eId=" + eId + ", loginName=" + loginName + ", eName=" + eName + ", depart=" + depart
+				+ ", eJobType=" + eJobType + ", directorScore=" + directorScore + ", managersScore=" + managersScore
+				+ ", empsScore=" + empsScore + ", otherScore=" + otherScore + ", pwd=" + pwd + ", totalScore="
+				+ totalScore + ", businessScore=" + businessScore + ", rulesScore=" + rulesScore + ", eventScore="
+				+ eventScore + ", teamScore=" + teamScore + ", manageScore=" + manageScore + "]";
 	}
 
+	
 	
 	
 	
