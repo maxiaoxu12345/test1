@@ -27,16 +27,17 @@ public interface EmployeeMapper {
 
 	/**
 	 * 按部门来获取员工表
-	 * @param departName
+	 * @param departId
 	 * @return
 	 */
-	public List<Employee> getEmpsByDepart(String departName);
+	public List<Employee> getEmpsByDepart(int departId);
 
 	/**
+	 * 根据登录名查询数据库
 	 * @param string
 	 * @return
 	 */
-	public Employee goLogin(String empName);
+	public List<Employee> goLogin(Map<String, String> empIn);
 
 	/**
 	 * @return
@@ -190,6 +191,20 @@ public interface EmployeeMapper {
 	 * @return
 	 */
 	public int getIsTest(@Param("empScore")EmpScore empScore);
+
+	/**
+	 * 通过id获取部门
+	 * @param departId
+	 * @return
+	 */
+	public Depart getDepart(int departId);
+
+	/**
+	 * 根据id获取员工对象
+	 * @param testId
+	 * @return
+	 */
+	public Employee getEmpById(int testId);
 
 
 

@@ -4,7 +4,6 @@
 package com.eccl.ssm.Controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -63,7 +62,7 @@ public class EmployeeController {
 	
 	public String login(@RequestParam("empName")String empName,
 			            @RequestParam("pwd")String pwd,
-			            @RequestParam(value = "depart" ,required=false)String depart,
+			            @RequestParam(value = "departId" ,required=false)String departId,
 			            HttpServletResponse response,
 			            HttpSession session,
 			            Model model) throws IOException{
@@ -71,35 +70,42 @@ public class EmployeeController {
 		
 		System.out.println(empName);
 		Map<String, String> empIn= new HashMap<String, String>();
-		if (empName.equals("张磊")) {
-			if (depart == null) {
-				model.addAttribute("msg", "请选择您的部门");
-				return "login";
-			}else{
-				System.out.println("部门:"+depart);
-				return "login";
-			}
-		}
-		
-		
-		
-		
+
+		String returnUrl = "";
 		
 		
 		empIn.put("empName", empName);
 		empIn.put("pwd", pwd);
-		Employee loginEmp = eService.Login(empIn);
-		System.out.println("登录:" +loginEmp);
-		if (loginEmp==null) {
-				return "login";
-		} 
-		/*List<Depart> departs=eService.getAllDepart();*/
-		/*for (Depart depart : departs) {
-			System.out.println(depart);
+		empIn.put("depart", departId);
+		
+		List<Employee>  loginEmp = eService.Login(empIn);
+			
+		/*for (Employee employee : loginEmp) {
+			System.out.println("查出来的登录用户:"+employee);
 		}*/
-		session.setAttribute("user", loginEmp);
-		/*session.setAttribute("departs", departs);*/
-		return "main";
+		
+		switch (loginEmp.size()) {
+		case 0:
+			returnUrl = "login";
+			break;   //不存在当前用户 
+        case 1:
+        	if (loginEmp.get(0).getPwd().equals(pwd)) {
+				returnUrl = "main";
+				
+				session.setAttribute("user", loginEmp.get(0));
+			} else {
+                returnUrl = "login";
+			}
+			break;   
+
+		default:
+			List<Depart> allDepart = eService.getAllDepart();
+			model.addAttribute("allDeparts", allDepart);
+			returnUrl = "login";
+			break;
+		}
+		
+		return returnUrl;
 	}
 	
 	
@@ -127,9 +133,8 @@ public class EmployeeController {
 	@RequestMapping("/goTest.action")
     public ModelAndView goTest(HttpServletRequest request, HttpSession session){
 		Employee emp = (Employee) request.getSession().getAttribute("user");
-		Depart dt = emp.getDepart();
-		dt.getdName();
-	    List<Employee> empsByDepart = eService.getEmpsByDepart(emp.getDepart().getdName());
+		
+	    List<Employee> empsByDepart = eService.getEmpsByDepart(emp.getDepart().getdId());
 	   
 	 
       /* request.setAttribute("emps", empsByDepart);*/
@@ -147,25 +152,29 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping("/getEmpsByDepart.action")
-	public ModelAndView getEmps(@RequestParam("departName")String departName){
-		List<Employee> lists=eService.getEmpsByDepart(departName);
+	public ModelAndView getEmps(@RequestParam("departId")int departId){
+		List<Employee> lists=eService.getEmpsByDepart(departId);
 		ModelAndView mView = new ModelAndView();
 		mView.setViewName("content");
 		mView.addObject("emps", lists);
-		mView.addObject("dep", departName);
+		
+		//
+		Depart depart = eService.getDepartById(departId);
+		
+		mView.addObject("dep", depart.getdName());
 		return mView;
 	}
 	
 	/**
 	 * 保存互评分数
-	 * @param testName
+	 * @param testId
 	 * @param score
 	 * @param request
 	 * @return
 	 */
 	@RequestMapping("/saveTest.action")
 	@ResponseBody
-	public String saveTest(@RequestParam("name")String testName,
+	public String saveTest(@RequestParam("eId")int testId,
 			               @RequestParam("score")double score,
 			               HttpServletRequest request){
 		//TODO:
@@ -184,8 +193,9 @@ public class EmployeeController {
 		String jobType = emp.geteJobType();
 	
         Date date = new Date();
-       
-      
+        
+        Employee employee = eService.getEmpById(testId);
+        String testName = employee.geteName();
 		map.put("name", name);
 		map.put("testName", testName);
 		
@@ -243,11 +253,13 @@ public class EmployeeController {
 	 * @return
 	 */
 	@RequestMapping("/empScore.action")
-	public ModelAndView empScore(@RequestParam("empName")String empName,HttpServletRequest request){
+	public ModelAndView empScore(@RequestParam("empId")int empId,HttpServletRequest request){
 	    ModelAndView mView=new ModelAndView();
 	    mView.setViewName("test");
 	    
-	    System.out.println("测评："+empName);
+	    System.out.println("测评："+empId);
+	     Employee empById = eService.getEmpById(empId);
+	     String empName = empById.geteName();
 	    EmpScore empScore=eService.getEmpScore(empName);
 	    if (empScore == null) {
 			empScore = new EmpScore();
@@ -262,7 +274,7 @@ public class EmployeeController {
 	 * 经理给某员工打完分后保存
 	 * @return
 	 */
-	@RequestMapping("/saveEmpScore.action")
+	@RequestMapping(value = "/saveEmpScore.action" , method = RequestMethod.POST)
 	public ModelAndView saveEmpScore(EmpScore empScore,HttpServletRequest request){
 		System.out.println("保存评测员工："+empScore);
 		
@@ -315,12 +327,40 @@ public class EmployeeController {
 		Employee emp = (Employee)request.getSession().getAttribute("user");
 		empScore.setDirector(emp.geteName());
 		
-		//将评分记录保存
-		eService.updateScoreRecord(empScore);
+		
 		
 		ModelAndView mView = new ModelAndView();
 		mView.setViewName("redirect:/goDirectorTest.action");
 		
+		
+		
+
+		double scoreAchievement = empScore.getScoreAchievement();
+		double scoreFinish = empScore.getScoreFinish();
+		double scoreFinance = empScore.getScoreFinance();
+		double scoreHygiene = empScore.getScoreHygiene();
+		double scoreAttendance = empScore.getScoreAttendance();
+		double scoreBehavior = empScore.getScoreBehavior();
+		double scorePlan = empScore.getScorePlan();
+		double scoreContribution = empScore.getScoreContribution();
+		double scoreFault = empScore.getScoreFault();
+		if (scoreAchievement < 0 || scoreAchievement>100 || 
+				scoreFinish < 0 || scoreFinish>100 ||
+				scoreFinance < 0 || scoreFinance>100 ||
+				scoreHygiene < 0 || scoreHygiene>100 ||
+				scoreAttendance < 0 || scoreAttendance>100 ||
+				scoreBehavior < 0 || scoreBehavior>100 ||
+				scorePlan < 0 || scorePlan>100 ||
+				scoreContribution < 0 || scoreContribution % 10 !=0 ||
+				scoreFault > 0 || scoreFault % 10 !=0 ) {
+			System.err.println("评分格式不正确");
+			return mView;
+		}
+		
+		
+		//将评分记录保存
+	    eService.updateScoreRecord(empScore);
+
 		return mView;
 	}
 	

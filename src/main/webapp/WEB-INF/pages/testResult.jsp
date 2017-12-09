@@ -39,6 +39,7 @@
 			  </thead>
 			  <tbody>
 			       <c:forEach items="${emps}" var="emp">
+			         <c:if test="${emp.eName ne 'admin' }">
 			         <tr>
                         <td class="data_cell" style="text-align: center;">${emp.eName}</td>
                         <td class="data_cell" style="text-align: center;">${emp.depart.dName}</td>
@@ -48,7 +49,7 @@
                         <td class="data_cell" style="text-align: center;">${emp.totalScore}</td>
                      </tr>
    
-   
+                     </c:if>
                    </c:forEach>
 			  </tbody>
 			  

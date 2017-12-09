@@ -6,6 +6,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!-- Sql的映射文件 -->
 	<mapper namespace="com.eccl.ssm.Mapper.EmployeeMapper">
 	  <resultMap type="com.eccl.ssm.Entity.Employee" id="getAllEmpsMap">
+	    <id column="e_id" property="eId"/>
+	    <result column="login_name" property="loginName"/>
 	    <result column="e_name" property="eName" />
 	    <result column="e_d_id" property="depart.dId" />
 	    <result column="departName" property="depart.dName"/>
@@ -25,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  
 	  <!-- public List<Employee> getEmps(); -->
 	  <select id="getEmps" resultMap="getAllEmpsMap">
-	     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score
+	     select e_id ,login_name, e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score
 	     from eccl_emp e
 	     left join eccl_role r
 	     on e.e_job_type = r.r_id
@@ -34,33 +36,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	  </select>
 	
 	  
-	  <!-- public List<Employee> getEmpsByDepart(String departName); -->
+	  <!-- public List<Employee> getEmpsByDepart(int departId); -->
 	  <select id="getEmpsByDepart" resultMap="getAllEmpsMap">
-		     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score
+		     select e_id ,login_name, e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score
 		     from eccl_emp e
 		     left join eccl_role r
 		     on e.e_job_type = r.r_id
 		     left join eccl_depart d
 		     on e.e_d_id = d.d_id
-			 where d.d_name=#{departName}
+			 where d.d_id=#{departId}
+	  </select>
+	  
+	  <!-- public Employee getEmpById(int testId); -->
+	  <select id="getEmpById" resultMap="getAllEmpsMap">
+	      select * from eccl_emp
+	      where e_id = #{testId}
 	  </select>
 	  
 	  
-	  <!-- public Employee goLogin(String empName); -->
+	  <!-- public List<Employee> goLogin(Map<String, String> empIn); -->
 	  <select id="goLogin" resultMap="getAllEmpsMap">
-	     select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,e_pwd
+	     select e_id ,login_name, e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,e_pwd
 	     from eccl_emp e
 	     left join eccl_role r
 	     on e.e_job_type = r.r_id
 	     left join eccl_depart d
 	     on e.e_d_id = d.d_id
-	     where e_name=#{empName}
+	     <trim prefix="where">
+	       <if test="depart != null and  depart != ''">
+	          e_d_id = #{depart}  and
+	       </if>
+	       login_name=#{empName}
+	    </trim>
 	  </select>
 	  
+	  <!-- 部门对象映射表 -->
 	  <resultMap type="com.eccl.ssm.Entity.Depart" id="getAllDepartMap">
 	    <id column="d_id" property="dId"/>
 	    <result column="d_name" property="dName"/>
 	  </resultMap>
+	  
+	  <!-- public Depart getDepart(int departId); -->
+	  <select id="getDepart" resultMap="getAllDepartMap">
+	      select  *  
+			from eccl_depart 
+			where d_id =#{departId}
+	  </select>
+	  
 	  <!-- public List<Depart> getAllDepart(); -->
 	  <select id="getAllDepart" resultMap="getAllDepartMap">
 	     SELECT * FROM eccl_depart;
@@ -93,7 +115,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 
 	 <!-- public List<Employee> getOwnEmps(int getdId); -->
 	 <select id="getOwnEmps"  resultMap="getAllEmpsMap">
-	    select e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,e_pwd
+	    select e_id ,login_name, e_name, e_d_id,d.d_name as departName, r.r_name as roleName,director_score,managers_score,emps_score,other_score,e_pwd
 	     from eccl_emp e
 	     left join eccl_role r
 	     on e.e_job_type = r.r_id

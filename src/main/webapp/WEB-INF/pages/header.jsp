@@ -38,7 +38,7 @@
 			});
 			
 			$("#findTestResult").click(function(){
-				alert("查询测评结果");
+				/* alert("查询测评结果"); */
 				parent.main.location.href="${pageContext.request.contextPath}/goTestResult.action";
 				 return false;
 
@@ -61,7 +61,7 @@
 			           <c:choose>
 			              <c:when test="${user.eJobType eq '管理员' }">
 			                 <li class="navLi"><a class="navbar-brand" href="#" id="findTestResult">查询评测结果</a></li>
-			                 <li class="navLi"><a class="navbar-brand" href="#" id="exportTestResult">导出结果</a></li>
+			                <!--  <li class="navLi"><a class="navbar-brand" href="#" id="exportTestResult">导出结果</a></li> -->
 			              </c:when>
 			              <c:when test="${user.eJobType eq '经理' }">
 			                  <li class="navLi"><a class="navbar-brand" href="#" id="empTest">员工互评</a></li>

@@ -15,13 +15,14 @@
 	  $(function(){
 		  $("#selDepart").change(function(){
 			  var val=$("#selDepart").val();
-			/*   alert(val); */
-			  window.location.href="${pageContext.request.contextPath}/getEmpsByDepart.action?departName="+val;
+			 
+			  window.location.href="${pageContext.request.contextPath}/getEmpsByDepart.action?departId="+val;
 		  });
 		  $(".saveTest").click(function(){
 		   var score= $(this).prev().val();
 			  if(score!="" && score>=0 && score <=100){
-				 var name=  $(this).parent().prev().prev().text();
+				 var eId =  $(this).parent().parent().prev().val();
+				/*  alert(eId); */
 				 var url="${pageContext.request.contextPath}/saveTest.action";
 				 function callback(data){
 						if(data=='1'){
@@ -33,7 +34,7 @@
 						}
 					};
 					var type = "json"; 
-					var obj={"name":name,"score":score};
+					var obj={"eId":eId,"score":score};
 					$.post(url,obj,callback,type);
 					
 					$(this).attr("disabled",true);
@@ -42,9 +43,7 @@
 			  }else{
 				  alert("评分范围为0-100");
 			  }
-			  
 		  });
-		    
 	  });
 	
 	</script>
@@ -62,7 +61,7 @@
 						</option>
 					    <c:forEach items="${departs}" var="dep">
 					      <c:if test="${dep.dName ne '系统管理员' }">
-					        <option value="${dep.dName}">
+					        <option value="${dep.dId}">
 							 ${dep.dName}
 						    </option>
 					      </c:if>
@@ -88,6 +87,7 @@
 				<tbody>
 				<c:forEach var="emp" items="${emps}">
 				   <c:if test="${emp.eName != user.eName }">
+				      <input type="hidden" value="${emp.eId }">
 				      <tr>
 						<td class="data_cell" style="text-align: center;">${emp.eName}</td>
 						<td class="data_cell" style="text-align: center;">${emp.depart.dName}</td>				

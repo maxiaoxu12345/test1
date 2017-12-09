@@ -34,10 +34,10 @@
 				      <tr>
 						<td class="data_cell" style="text-align: center;">${emp.eName}</td>
 						<c:if test="${emp.otherScore == 0.0 }">
-						   <td class="data_cell" style="text-align: center;"><input type="button" value="测评" onclick="window.location.href='${pageContext.request.contextPath}/empScore.action?empName=${emp.eName}'"></td>
+						   <td class="data_cell" style="text-align: center;"><input type="button" value="测评" onclick="window.location.href='${pageContext.request.contextPath}/empScore.action?empId=${emp.eId}'"></td>
 						</c:if>
 						<c:if test="${emp.otherScore != 0.0 }">
-						   <td class="data_cell" style="text-align: center;"><input type="button" value="更新测评" onclick="window.location.href='${pageContext.request.contextPath}/empScore.action?empName=${emp.eName}'"></td>
+						   <td class="data_cell" style="text-align: center;"><input type="button" value="更新测评" onclick="window.location.href='${pageContext.request.contextPath}/empScore.action?empId=${emp.eId}'"></td>
 						</c:if>
 										
 					</tr>
