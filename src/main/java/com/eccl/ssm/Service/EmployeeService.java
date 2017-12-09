@@ -180,7 +180,7 @@ public class EmployeeService {
 		System.out.println("otherScore:"+otherScore); 
 		
 		
-		Map<String, Object> scoresMap = new HashMap<>();
+		Map<String, Object> scoresMap = new HashMap<String, Object>();
 		scoresMap.put("businessScore",businessScore);
 		scoresMap.put("rulesScore",rulesScore);
 		scoresMap.put("eventScore",event_score);

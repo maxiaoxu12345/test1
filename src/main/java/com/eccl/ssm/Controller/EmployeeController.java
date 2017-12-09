@@ -176,7 +176,7 @@ public class EmployeeController {
 		}
 		
 		
-		Map<String, Object> map = new HashMap<>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		
 		Employee emp = (Employee) request.getSession().getAttribute("user");
 		String name=emp.geteName();
