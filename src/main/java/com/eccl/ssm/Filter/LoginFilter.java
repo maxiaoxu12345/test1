@@ -25,8 +25,6 @@ public class LoginFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -34,33 +32,19 @@ public class LoginFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		/*
-		 * Employee admin = (Employee) req.getSession().getAttribute("user");
-		 * System.out.println(admin); System.out.println("11111");
-		 */
 		System.out.println("111");
 		String requestURI = req.getRequestURI();
 		System.out.println("请求路径:" + requestURI);
 		if (!requestURI.equals("/login.action")) {
+			System.out.println(req.getSession().getAttribute("user"));
 			if (null == req.getSession().getAttribute("user")) {
-				System.out.println(req.getSession(true).isNew());
-				if (true == req.getSession(true).isNew()) {
-
-				} else {
-					resp.sendRedirect(req.getContextPath() + "/index.jsp");
-					return;
-				}
+				resp.sendRedirect(req.getContextPath() + "/index.jsp");
 			}
 		}
-
 		chain.doFilter(request, response);
-
 	}
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-
 	}
-
 }

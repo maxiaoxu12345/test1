@@ -44,7 +44,7 @@ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
    </filter>
    <filter-mapping>
         <filter-name>loginFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>*.action</url-pattern>
    </filter-mapping>
    
    <!-- 配置springmvc -->
