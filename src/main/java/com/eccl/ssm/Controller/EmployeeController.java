@@ -6,7 +6,6 @@ package com.eccl.ssm.Controller;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -122,11 +121,6 @@ public class EmployeeController {
 	 * 
 	 * 
 	 */
-	@Test
-	public void test() {
-		BigDecimal a = new BigDecimal(1546).divide(new BigDecimal(1000)).setScale(2, BigDecimal.ROUND_HALF_UP);
-		double doubleValue = a.doubleValue();
-	}
 
 	@RequestMapping("/goTestResult.action")
 	public ModelAndView showTestResult() {
