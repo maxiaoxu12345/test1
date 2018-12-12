@@ -33,12 +33,9 @@
 				   <c:if test="${emp.eName != user.eName }">
 				      <tr>
 						<td class="data_cell" style="text-align: center;">${emp.eName}</td>
-						<c:if test="${emp.otherScore == 0.0 }">
+						
 						   <td class="data_cell" style="text-align: center;"><input type="button" value="测评" onclick="window.location.href='${pageContext.request.contextPath}/empScore.action?empName=${emp.eName}'"></td>
-						</c:if>
-						<c:if test="${emp.otherScore != 0.0 }">
-						   <td class="data_cell" style="text-align: center;"><input type="button" value="更新测评" onclick="window.location.href='${pageContext.request.contextPath}/empScore.action?empName=${emp.eName}'"></td>
-						</c:if>
+						
 										
 					</tr>
 				   </c:if>
@@ -49,7 +46,7 @@
 			
 	    </c:if>
 	    <c:if test="${empty emps}">
-			没有任何数据
+			张先生您不用参与此项评分。
 		</c:if>
 	  
 	  

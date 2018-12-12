@@ -13,76 +13,96 @@ package com.eccl.ssm.Entity;
 public class Employee {
 	private int eId;
 	private String loginName;
-	private  String  eName;   
-	private  Depart depart;
-	private  String eJobType;   //职位类型
-	private double directorScore; //经理打分
-	private double managersScore;  //其他经理打分
-	private double empsScore;     //其他员工打分
-	private double otherScore;    //其他分
+	private String eName;
+	private Depart depart;
+	private String eJobType; // 职位类型
+	private double bussinessScore;
+	private double managersScore; // 其他经理打分
+	private double empsScore; // 其他员工打分
+	private double otherScore; // 其他分
+	private double keyScore; // 其他分
 	private String pwd;
-	
-	private double totalScore;    //最终合计分数
-	private double businessScore;  //业务指标得分
-	private double rulesScore;     //公司规章制度 评分
-    private double eventScore;    // 贡献与过失 得分
-	private double teamScore ;    //员工互评+ 经理评分 + 其他经理评分
-	private double manageScore;   //管理指标 得分
-	
-	
-	public Employee() {
-		super();
-	}
-	
-	
-
-	public Employee(int eId, String loginName, String eName, Depart depart, String eJobType, double directorScore,
-			double managersScore, double empsScore, double otherScore, String pwd, double totalScore,
-			double businessScore, double rulesScore, double eventScore, double teamScore, double manageScore) {
-		super();
-		this.eId = eId;
-		this.loginName = loginName;
-		this.eName = eName;
-		this.depart = depart;
-		this.eJobType = eJobType;
-		this.directorScore = directorScore;
-		this.managersScore = managersScore;
-		this.empsScore = empsScore;
-		this.otherScore = otherScore;
-		this.pwd = pwd;
-		this.totalScore = totalScore;
-		this.businessScore = businessScore;
-		this.rulesScore = rulesScore;
-		this.eventScore = eventScore;
-		this.teamScore = teamScore;
-		this.manageScore = manageScore;
-	}
-
-    
+	private double finalScore;
 
 	public int geteId() {
 		return eId;
 	}
 
-
-
 	public void seteId(int eId) {
 		this.eId = eId;
 	}
-
-
 
 	public String getLoginName() {
 		return loginName;
 	}
 
-
-
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
 	}
 
+	public String geteName() {
+		return eName;
+	}
 
+	public void seteName(String eName) {
+		this.eName = eName;
+	}
+
+	public Depart getDepart() {
+		return depart;
+	}
+
+	public void setDepart(Depart depart) {
+		this.depart = depart;
+	}
+
+	public String geteJobType() {
+		return eJobType;
+	}
+
+	public void seteJobType(String eJobType) {
+		this.eJobType = eJobType;
+	}
+
+	public double getBussinessScore() {
+		return bussinessScore;
+	}
+
+	public void setBussinessScore(double bussinessScore) {
+		this.bussinessScore = bussinessScore;
+	}
+
+	public double getManagersScore() {
+		return managersScore;
+	}
+
+	public void setManagersScore(double managersScore) {
+		this.managersScore = managersScore;
+	}
+
+	public double getEmpsScore() {
+		return empsScore;
+	}
+
+	public void setEmpsScore(double empsScore) {
+		this.empsScore = empsScore;
+	}
+
+	public double getOtherScore() {
+		return otherScore;
+	}
+
+	public void setOtherScore(double otherScore) {
+		this.otherScore = otherScore;
+	}
+
+	public double getKeyScore() {
+		return keyScore;
+	}
+
+	public void setKeyScore(double keyScore) {
+		this.keyScore = keyScore;
+	}
 
 	public String getPwd() {
 		return pwd;
@@ -92,122 +112,12 @@ public class Employee {
 		this.pwd = pwd;
 	}
 
-	
-    
-	public double getTeamScore() {
-		return teamScore;
+	public double getFinalScore() {
+		return finalScore;
 	}
 
-
-	public void setTeamScore(double teamScore) {
-		this.teamScore = teamScore;
+	public void setFinalScore(double finalScore) {
+		this.finalScore = finalScore;
 	}
-
-
-	public double getManageScore() {
-		return manageScore;
-	}
-
-
-	public void setManageScore(double manageScore) {
-		this.manageScore = manageScore;
-	}
-
-
-	public double getTotalScore() {
-		return totalScore;
-	}
-
-	public void setTotalScore(double totalScore) {
-		this.totalScore = totalScore;
-	}
-
-	
-
-	public double getBusinessScore() {
-		return businessScore;
-	}
-
-	public void setBusinessScore(double businessScore) {
-		this.businessScore = businessScore;
-	}
-
-	public double getRulesScore() {
-		return rulesScore;
-	}
-
-	public void setRulesScore(double rulesScore) {
-		this.rulesScore = rulesScore;
-	}
-
-	public double getEventScore() {
-		return eventScore;
-	}
-
-	public void setEventScore(double eventScore) {
-		this.eventScore = eventScore;
-	}
-
-	
-
-	public String geteName() {
-		return eName;
-	}
-	public void seteName(String eName) {
-		this.eName = eName;
-	}
-	public Depart getDepart() {
-		return depart;
-	}
-	public void setDepart(Depart depart) {
-		this.depart = depart;
-	}
-	public String geteJobType() {
-		return eJobType;
-	}
-	public void seteJobType(String eJobType) {
-		this.eJobType = eJobType;
-	}
-	public double getDirectorScore() {
-		return directorScore;
-	}
-	public void setDirectorScore(double directorScore) {
-		this.directorScore = directorScore;
-	}
-	public double getManagersScore() {
-		return managersScore;
-	}
-	public void setManagersScore(double managersScore) {
-		this.managersScore = managersScore;
-	}
-	public double getEmpsScore() {
-		return empsScore;
-	}
-	public void setEmpsScore(double empsScore) {
-		this.empsScore = empsScore;
-	}
-	public double getOtherScore() {
-		return otherScore;
-	}
-	public void setOtherScore(double otherScore) {
-		this.otherScore = otherScore;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "Employee [eId=" + eId + ", loginName=" + loginName + ", eName=" + eName + ", depart=" + depart
-				+ ", eJobType=" + eJobType + ", directorScore=" + directorScore + ", managersScore=" + managersScore
-				+ ", empsScore=" + empsScore + ", otherScore=" + otherScore + ", pwd=" + pwd + ", totalScore="
-				+ totalScore + ", businessScore=" + businessScore + ", rulesScore=" + rulesScore + ", eventScore="
-				+ eventScore + ", teamScore=" + teamScore + ", manageScore=" + manageScore + "]";
-	}
-
-	
-	
-	
-	
-	
 
 }

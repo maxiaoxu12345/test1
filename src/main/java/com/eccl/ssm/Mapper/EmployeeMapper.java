@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import com.eccl.ssm.Entity.Depart;
 import com.eccl.ssm.Entity.EmpScore;
 import com.eccl.ssm.Entity.Employee;
-import com.eccl.ssm.Entity.Role;
+import com.eccl.ssm.Entity.NewEmp;
 
 /**
  * 员工测评Mapper
@@ -21,183 +21,241 @@ import com.eccl.ssm.Entity.Role;
  *
  */
 public interface EmployeeMapper {
-	
-	//获取所有员工
+
+	// 获取所有员工
 	public List<Employee> getEmps();
 
 	/**
-	 * 按部门来获取员工表
+	 * 建表用 A
+	 * 
+	 * @param map
+	 * 
+	 * @param
+	 * @return
+	 */
+	public List<NewEmp> getMap(Map<String, Object> map);
+
+	/**
+	 * 按部门来获取员工表 A
+	 * 
 	 * @param departName
 	 * @return
 	 */
-	public List<Employee> getEmpsByDepart(String departName);
+	public List<NewEmp> getEmpsByDepart(String eName);
 
 	/**
+	 * A
+	 * 
 	 * @param string
 	 * @return
 	 */
-	public Employee goLogin(String empName);
+	public List<Employee> goLogin(String empName);
 
+	// public Employee goLogin(String empName);
 	/**
+	 * A
+	 * 
+	 * @param i
 	 * @return
 	 */
-	public List<Depart> getAllDepart();
+	public List<Depart> getAllDepart(int i);
 
 	/**
+	 * A
+	 * 
 	 * @param map
 	 */
 	public void saveScore(Map<String, Object> map);
 
 	/**
-	 * 判断是否存在一条已经评测过得记录
+	 * 判断是否存在一条已经评测过得记录 A
+	 * 
 	 * @param map
 	 * @return
 	 */
 	public int isRecored(Map<String, Object> map);
 
 	/**
-	 * 更新评测
+	 * 更新评测 A
+	 * 
 	 * @param map
 	 */
 	public void updateScore(Map<String, Object> map);
 
 	/**
-	 * 获取经理下属员工
+	 * 获取经理下属员工 A
+	 * 
 	 * @param getdId
 	 * @return
 	 */
 	public List<Employee> getOwnEmps(int getdId);
 
 	/**
-	 * 获取员工具体评分
-	 * @param empName
+	 * 获取员工具体评分 A
+	 * 
+	 * @param map
 	 * @return
 	 */
-	public EmpScore getEmpScore(String empName);
+	public EmpScore getEmpScore(Map<String, Object> map);
 
 	/**
-	 * 保存经理对员工的评分记录
+	 * A 修改密码
+	 * 
+	 * @param umap
+	 */
+	public void editpwd(@Param("umap") Map<String, String> umap);
+
+	/**
+	 * A
+	 * 
+	 * @param departName
+	 * @return
+	 */
+	public List<NewEmp> getEmpsByDepartName(String departName);
+
+	/**
+	 * A
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public Integer getDepartByName(String name);
+
+	/**
+	 * A
+	 * 
+	 * @param geteJobType
+	 * @return
+	 */
+	public Integer getDepartByJobType(String geteJobType);
+
+	/**
+	 * 建表 A
+	 * 
+	 * @param map
+	 */
+	public void InsertA(Map<String, Object> map);
+
+	/**
+	 * A
+	 * 
+	 * @param map
+	 * @return
+	 */
+	public List<Depart> getAllDepartExcept(Map<String, Object> map);
+
+	/**
+	 * A
+	 * 
+	 * @param empScore
+	 */
+	public void saveDirectorTestInEmp(EmpScore empScore);
+
+	/**
+	 * A
+	 * 
+	 * @param name
+	 * 
+	 * @param num2
+	 * @param string
+	 */
+	public void updateEmpsScoreInEmps(Map<String, Object> map);
+
+	/**
+	 * A
+	 * 
+	 * @param map
+	 */
+	public void updateOtherScoreInEmps(Map<String, Object> map);
+
+	/**
+	 * A
+	 * 
+	 * @return
+	 */
+	public List<Employee> getEmpsTestResult();
+
+	/**
+	 * @param getdId
+	 * @return
+	 */
+	public List<Depart> getAllDepartExc(int getdId);
+
+	/**
+	 * @param getdId
+	 * @return
+	 */
+	public List<NewEmp> getEmpsByDepartExc(int getdId);
+
+	/**
+	 * @param map
+	 * @return
+	 */
+	public int iskey(Map<String, Object> map);
+
+	/**
+	 * 不存在插入
+	 * 
+	 * @param empScore
+	 */
+	public void insertScoreRecord(EmpScore empScore);
+
+	/**
+	 * 保存经理对员工的评分记录 A
+	 * 
 	 * @param empScore
 	 */
 	public void saveScoreRecord(EmpScore empScore);
 
 	/**
-	 * 将计算出来的otherScore存到数据库
-	 * @param scoresMap
-	 */
-	public void saveOtherScore(Map<String, Object> scoresMap);
-
-	/**
-	 * 更新某员工评测
-	 * @param empScore
-	 */
-	public void updateScoreRecord(EmpScore empScore);
-
-	/**
-	 * 计算员工的经理评分
-	 * @param geteName
-	 */
-	public void calculateDirectorScore(String geteName);
-
-	/**
-	 * 获取角色列表
 	 * @return
 	 */
-	public List<Role> getAllRole();
+	public List<String> selectAllEmpName();
 
 	/**
-	 * 计算其他经理给该员工的评分
-	 * @param geteName
+	 * @param string
 	 */
-	public void calculateOtherDirectorScore(String geteName);
+	public void updateEmps(String string);
 
 	/**
-	 * 计算其他经理打分人数
-	 * @param geteName
+	 * @param string
 	 * @return
 	 */
-	public int getOtherDirectorScoreCount(String geteName);
+	public int selectcount(String string);
 
 	/**
-	 * @param otherDirectorScoreCount
-	 * @param geteName
+	 * @param string
+	 * @return
 	 */
-	public void calculateOtherDirectorScore(int otherDirectorScoreCount, String geteName);
+	public List<Integer> selectScores(String string);
 
 	/**
-	 * 查询出给该员工评分的其他员工个数
+	 * @param string
+	 * @return
+	 */
+	public List<Integer> selectOtherScores(String string);
+
+	/**
+	 * @return
+	 */
+	public List<String> selectAllEs();
+
+	/**
+	 * @param map
+	 * @return
+	 */
+	public Integer selectOneScore(Map<String, Object> map);
+
+	/**
 	 * @param geteName
 	 * @return
 	 */
-	public int selectETestTotal(String geteName);
+	public List<NewEmp> getEmpsByDepartExcep(String geteName);
 
 	/**
-	 * 计算5人以下员工互评
-	 * @param eTestTotal
-	 * @param geteName
-	 */
-	public void calculateEmpsScoore(int eTestTotal, String geteName);
-
-
-	
-
-	/**
-	 * 计算大于5人（去掉最高、最低分） 评分的平均值
-	 * @param failCount   分别去掉最高分和最低分的个数
-	 * @param i           去掉部分最高分和部分最低分后 给该员工的总的评分人数
-	 * @param geteName    该员工的姓名
-	 */
-	public void calculateEmpsMorescore(int failCount, int i, String geteName);
-
-	/**
-	 * 合计最终得分
-	 * @param geteName
-	 */
-	public void calculateTotalScore(String geteName);
-
-	/**
-	 * 获取最终评分结果
+	 * @param map
 	 * @return
 	 */
-	public List<Employee> getTestResult();
-
-	/**
-	 * 获取员工表中的得分情况
-	 * @param geteName
-	 * @return
-	 */
-	public Employee getEmpTableScore(String geteName);
-
-	/**
-	 * 将team_score 存到数据库
-	 * @param teamScore
-	 * @param geteName
-	 */
-	public void calculateTeamScore(double teamScore, String geteName);
-
-
-
-	/**
-	 * 合计出管理指标
-	 * @param d
-	 * @param geteName
-	 */
-	public void calculateManage(double d, String geteName);
-
-	/**
-	 * 判断是否已经评测过
-	 * @param empScore
-	 * @return
-	 */
-	public int getIsTest(@Param("empScore")EmpScore empScore);
-
-
-
-
-	
-
-	
-     
-	
+	public Integer selectOneScore2(Map<String, Object> map);
 
 }

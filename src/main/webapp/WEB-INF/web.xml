@@ -11,9 +11,22 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
   <display-name>Archetype Created Web Application</display-name>
-  
-  
-  
+  <servlet>  
+<servlet-name>runtain</servlet-name>  
+<jsp-file>/WEB-INF/pages/test.jsp</jsp-file>  
+</servlet>  
+<servlet-mapping>  
+<servlet-name>runtain</servlet-name>  
+<url-pattern>/test</url-pattern>  
+ </servlet-mapping>  
+  <error-page>
+<error-code>404</error-code>
+<location>/NotFound.jsp</location>
+</error-page>
+<error-page>
+<error-code>500</error-code>
+<location>/NotFound.jsp</location>
+</error-page>
    <!-- 上下文监听器 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>

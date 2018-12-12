@@ -3,11 +3,9 @@
  */
 package com.eccl.ssm.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eccl.ssm.Entity.Depart;
 import com.eccl.ssm.Entity.EmpScore;
 import com.eccl.ssm.Entity.Employee;
-import com.eccl.ssm.Entity.Role;
+import com.eccl.ssm.Entity.NewEmp;
 import com.eccl.ssm.Mapper.EmployeeMapper;
 
 /**
@@ -27,110 +25,86 @@ import com.eccl.ssm.Mapper.EmployeeMapper;
  */
 @Service
 public class EmployeeService {
-	@Autowired(required=true)
+	@Autowired(required = true)
 	private EmployeeMapper eMapper;
-	//各项指标权重
-    private final double businessRatio_one=0.6;  //业务指标一级权重
-    private final double businessRatio_two=0.5;  //业务指标二级权重
-    private final double manageRatio_one = 0.4;  //管理指标一级权重
-    private final double rulesRatio_two = 0.1;   //公司规章制度 二级权重
-    private final double testRatio_two = 0.5;    //人员互评   --- 二级权重
-    private final double test_directorRatio = 0.6; //经理评测-- 三级权重
-    private final double test_otherRirRatio = 0.3; // 其他经理评测 ---三级权重
-    private final double test_empsRatio = 0.1;;    //员工互评     -----三级权重
-	
-	public List<Employee> getEmps(){
-		 List<Employee> emps = eMapper.getEmps();
-		 for (Employee employee : emps) {
-			 System.out.println("开始");
-			System.out.println("i"+employee);
-		}
-		 return emps;
-				  
-	}
-
 
 	/**
-	 * 通过部门id获取部门员工
-	 * @param departId
+	 * 通过部门id获取部门员工 A
+	 * 
+	 * @param eName
 	 * @return
 	 */
 	@Transactional
-	public List<Employee> getEmpsByDepart(int departId) {
-		List<Employee> lists= eMapper.getEmpsByDepart(departId);
+	public List<NewEmp> getEmpsByDepart(String eName) {
+		List<NewEmp> lists = eMapper.getEmpsByDepart(eName);
 		return lists;
 	}
 
-
 	/**
-	 * 登录
+	 * 登录 A
+	 * 
 	 * @param empIn
 	 * @return
 	 */
 	@Transactional
 	public List<Employee> Login(Map<String, String> empIn) {
-		List<Employee> employeeList=eMapper.goLogin(empIn);
-		/*System.out.println("登录查询出来的人："+employee);*/
-		
-		/*if (employee!=null && employee.getPwd().equals(empIn.get("pwd"))) {
-			return employee;
-		}*/
-		return employeeList;
+		List<Employee> employee = eMapper.goLogin(empIn.get("empName"));
+		return employee;
 	}
 
-
 	/**
+	 * A
+	 * 
+	 * @param i
 	 * @return
 	 */
 	@Transactional
-	public List<Depart> getAllDepart() {
-		
-		return eMapper.getAllDepart();
+	public List<Depart> getAllDepart(int i) {
+
+		return eMapper.getAllDepart(i);
 	}
 
-
 	/**
-	 * 保存评分
+	 * A 保存评分
+	 * 
 	 * @param map
 	 * @return
 	 */
 	@Transactional
 	public void saveScore(Map<String, Object> map) {
 		eMapper.saveScore(map);
-		
+
 	}
 
-
 	/**
-	 * 判断对某个同事是否已经评测过
+	 * A 判断对某个同事是否已经评测过
+	 * 
 	 * @param map
 	 * @return false 还没有评测记录 ， true 已评测完
 	 */
 	@Transactional
 	public boolean isRecored(Map<String, Object> map) {
-		int  record = eMapper.isRecored(map);
+		int record = eMapper.isRecored(map);
 		if (record == 0) {
 			return false;
-		} 
+		}
 		return true;
 	}
-	
-	
-
 
 	/**
-	 * 更新评测
+	 * A 更新评测
+	 * 
 	 * @param map
 	 */
 	@Transactional
 	public void updateScore(Map<String, Object> map) {
 		eMapper.updateScore(map);
-		
+
 	}
 
-
 	/**
-	 * 获取经理下属员工
+	 * A 获取经理下属员工
+	 * 
 	 * @param getdId
 	 * @return
 	 */
@@ -139,217 +113,270 @@ public class EmployeeService {
 		return eMapper.getOwnEmps(getdId);
 	}
 
-
 	/**
-	 * 获取所评测的员工具体分数
+	 * 建表 A
+	 * 
 	 * @param empName
 	 * @return
 	 */
 	@Transactional
-	public EmpScore getEmpScore(String empName) {
-		System.out.println("dsf"+empName);
-		return eMapper.getEmpScore(empName);
+	public void InsertA(Map<String, Object> map) {
+		List<NewEmp> list = eMapper.getMap(map);
+		for (NewEmp string : list) {
+			map.put("d", string.getE_name());
+			eMapper.InsertA(map);
+		}
 	}
 
+	/**
+	 * 获取所评测的员工具体分数 A
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@Transactional
+	public EmpScore getEmpScore(Map<String, Object> map) {
+		return eMapper.getEmpScore(map);
+	}
 
 	/**
-	 * 保存经理对员工的评分记录
+	 * 保存经理对员工的评分记录 A
+	 * 
 	 * @param empScore
 	 */
 	@Transactional
 	public void saveScoreRecord(EmpScore empScore) {
-		
-		//计算出员工表中的other_score
-		double scoreAchievement = empScore.getScoreAchievement();
-		double scoreFinish = empScore.getScoreFinish();
-		double scoreFinance = empScore.getScoreFinance();
-		double scoreHygiene = empScore.getScoreHygiene();
-		double scoreAttendance = empScore.getScoreAttendance();
-		double scoreBehavior = empScore.getScoreBehavior();
-		double scorePlan = empScore.getScorePlan();
-		double scoreFault = empScore.getScoreFault();
-		double scoreContribution = empScore.getScoreContribution();
-		
-		
-		
-		
-		double businessScore = (scoreAchievement+scoreFinish)*businessRatio_two*businessRatio_one  ; //业务指标
-		double rulesScore = (scoreFinance+scoreHygiene+scoreAttendance+scoreBehavior+scorePlan)* rulesRatio_two * manageRatio_one;   //公司规章制度评价
-		double event_score = scoreContribution + scoreFault;   //贡献与过失
-		
-		
-		
-		double otherScore = businessScore + rulesScore + event_score;
-		System.out.println("otherScore:"+otherScore); 
-		
-		
-		Map<String, Object> scoresMap = new HashMap<String, Object>();
-		scoresMap.put("businessScore",businessScore);
-		scoresMap.put("rulesScore",rulesScore);
-		scoresMap.put("eventScore",event_score);
-		scoresMap.put("otherScore",otherScore);
-		scoresMap.put("name", empScore.getEmpName());
-		
-		if(otherScore != 0.0){
-			//将otherScore存到数据库
-			eMapper.saveOtherScore(scoresMap);
-			//将数据存到评分表中
-			int countNum = eMapper.getIsTest(empScore);
-			if (countNum == 0) {
-				//还没有评测过就 新建 insert
-				eMapper.saveScoreRecord(empScore);
-			} else {
-				//已经评测过 将数据更新评分表中
-				eMapper.updateScoreRecord(empScore);
-			}
-			
-		}
-		
+		eMapper.saveScoreRecord(empScore);
 	}
 
-
 	/**
+	 * 获取测评结果 A
 	 * 
-	 * 更新某员工评测
-	 * @param empScore
-	 */
-	@Transactional
-	public void updateScoreRecord(EmpScore empScore) {
-		       //计算出员工表中的other_score
-				double scoreAchievement = empScore.getScoreAchievement();
-				double scoreFinish = empScore.getScoreFinish();
-				double scoreFinance = empScore.getScoreFinance();
-				double scoreHygiene = empScore.getScoreHygiene();
-				double scoreAttendance = empScore.getScoreAttendance();
-				double scoreBehavior = empScore.getScoreBehavior();
-				double scorePlan = empScore.getScorePlan();
-				double scoreFault = empScore.getScoreFault();
-				double scoreContribution = empScore.getScoreContribution();
-				
-				
-				
-				double businessScore = (scoreAchievement+scoreFinish)*businessRatio_two*businessRatio_one  ; //业务指标
-				double rulesScore = (scoreFinance+scoreHygiene+scoreAttendance+scoreBehavior+scorePlan)* rulesRatio_two * manageRatio_one;   //公司规章制度评价
-				double event_score = scoreContribution + scoreFault;   //贡献与过失
-				
-				double otherScore = businessScore + rulesScore + event_score;
-				System.out.println("otherScore:"+otherScore); 
-				
-				
-				Map<String, Object> scoresMap = new HashMap<>();
-				scoresMap.put("businessScore",businessScore);
-				scoresMap.put("rulesScore",rulesScore);
-				scoresMap.put("eventScore",event_score);
-				scoresMap.put("otherScore",otherScore);
-				scoresMap.put("name", empScore.getEmpName());
-				
-				if(otherScore != 0.0){
-					//将otherScore存到数据库
-					eMapper.saveOtherScore(scoresMap);
-					//将数据存到评分表中
-					eMapper.updateScoreRecord(empScore);
-				}
-		
-	}
-
-
-	/**
-	 * 获取测评结果
 	 * @return
 	 */
 	@Transactional
 	public List<Employee> getEmpsTestResult() {
-		//1.查出所有员工
-		List<Employee> emps = eMapper.getEmps();
-		for (Employee employee : emps) {
-			//System.out.println(employee.geteName());
-			//2.根据员工名计算出各个员工的经理评分
-			eMapper.calculateDirectorScore(employee.geteName());
-			
-			//3.获取其他打分经理人数
-			int otherDirectorScoreCount = eMapper.getOtherDirectorScoreCount(employee.geteName());
-			//System.out.println("获取其他打分经理人数"+otherDirectorScoreCount);
-			//4.计算其他经理的评分  (平均值)
-			if (otherDirectorScoreCount > 0) {
-				eMapper.calculateOtherDirectorScore(otherDirectorScoreCount,employee.geteName());
-			}
-			//5.查询员工互评个数
-			int eTestTotal = eMapper.selectETestTotal(employee.geteName());
-			int failCount = 0;  //舍弃 最高分/最低分   个数
-			//6.计算员工互评得分
-			if (0 < eTestTotal && eTestTotal <= 5) {
-				/*System.out.println("<5");*/
-				eMapper.calculateEmpsScoore(eTestTotal , employee.geteName() );  //计算5人(含5人)评分的平均值
-			} else if( eTestTotal > 5) {
-				/*System.out.println(">5");*/
-                  if (eTestTotal%10 == 0) {
-                	  failCount = eTestTotal/10;
-				  }else {
-					  failCount = eTestTotal/10 +1 ;
-				  }
-                 /* System.out.println("舍弃个数："+ failCount);*/
-                  eMapper.calculateEmpsMorescore(failCount, eTestTotal-2*failCount , employee.geteName());  //计算大于5人（去掉最高、最低分） 评分的平均值
-			}else {
-				/*System.out.println("没有其他员工给他评分");*/
-				continue;
-			}
-			//计算出tean_score 得分
-			Employee empTableScore =  eMapper.getEmpTableScore(employee.geteName());
-			
-			double teamScore = (empTableScore.getDirectorScore()*test_directorRatio 
-					+ empTableScore.getManagersScore()*test_otherRirRatio 
-					+ empTableScore.getEmpsScore()*test_empsRatio)*testRatio_two*manageRatio_one;
-			eMapper.calculateTeamScore(teamScore,employee.geteName());   //存储team_score
-			
-			//合计管理指标
-			eMapper.calculateManage(teamScore+empTableScore.getRulesScore(),employee.geteName());
-			
-			//合计最终得分
-			eMapper.calculateTotalScore(employee.geteName());
-			
+		return eMapper.getEmpsTestResult();
+
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param umap
+	 */
+	@Transactional
+	public void editpwd(Map<String, String> umap) {
+		eMapper.editpwd(umap);
+	}
+
+	/**
+	 * 通过Id获取当前部门 A
+	 * 
+	 * @param departId
+	 *            当前部门id
+	 * @return
+	 */
+	@Transactional
+	public List<NewEmp> getEmpsByDepartName(String departName) {
+		// TODO Auto-generated method stub
+		return eMapper.getEmpsByDepartName(departName);
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param name
+	 * @return
+	 */
+	@Transactional
+	public Integer getDepartByName(String name) {
+		// TODO Auto-generated method stub
+		return eMapper.getDepartByName(name);
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param geteJobType
+	 * @return
+	 */
+	@Transactional
+	public Integer getDepartByJobType(String geteJobType) {
+		// TODO Auto-generated method stub
+		return eMapper.getDepartByJobType(geteJobType);
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param map
+	 * @return
+	 */
+	@Transactional
+	public List<Depart> getAllDepartExcept(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return eMapper.getAllDepartExcept(map);
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param empScore
+	 */
+	@Transactional
+	public void saveDirectorTestInEmp(EmpScore empScore) {
+		eMapper.saveDirectorTestInEmp(empScore);
+
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param name
+	 * 
+	 * @param num2
+	 * @param string
+	 */
+	@Transactional
+	public void updateEmpsScoreInEmps(Map<String, Object> map) {
+		eMapper.updateEmpsScoreInEmps(map);
+
+	}
+
+	/**
+	 * A
+	 * 
+	 * @param map
+	 */
+	@Transactional
+	public void updateOtherScoreInEmps(Map<String, Object> map) {
+		eMapper.updateOtherScoreInEmps(map);
+
+	}
+
+	/**
+	 * @param getdId
+	 * @return
+	 */
+	@Transactional
+	public List<Depart> getAllDepartExc(int getdId) {
+		// TODO Auto-generated method stub
+		return eMapper.getAllDepartExc(getdId);
+
+	}
+
+	/**
+	 * @param getdId
+	 * @return
+	 */
+	@Transactional
+	public List<NewEmp> getEmpsByDepartExc(int getdId) {
+		// TODO Auto-generated method stub
+		return eMapper.getEmpsByDepartExc(getdId);
+
+	}
+
+	/**
+	 * @param map
+	 * @return
+	 */
+	@Transactional
+	public boolean iskey(Map<String, Object> map) {
+		if (1 == eMapper.iskey(map)) {
+			return true;
+		} else {
+			return false;
 		}
-		
-		List<Employee> emps2 = eMapper.getTestResult();
-		/*for (Employee employee : emps2) {
-			System.out.println("测评结果："+ employee);
-		}*/
-		
-		
-		return emps2;
-	}
 
+	}
 
 	/**
-	 * 获取角色列表
-	 * @return
+	 * @param empScore
 	 */
-	public List<Role> getAllRole() {
-		
-		return eMapper.getAllRole();
-	}
+	@Transactional
+	public void insertScoreRecord(EmpScore empScore) {
+		eMapper.insertScoreRecord(empScore);
 
+	}
 
 	/**
-	 * 通过Id获取当前部门
-	 * @param departId  当前部门id
 	 * @return
+	 * 
 	 */
-	public Depart getDepartById(int departId) {
-		
-		return eMapper.getDepart(departId);
-	}
+	public List<String> selectAllEmpName() {
+		return eMapper.selectAllEmpName();
+		// TODO Auto-generated method stub
 
+	}
 
 	/**
-	 * 根据员工id获取员工对象
-	 * @param testId
-	 * @return
+	 * @param string
 	 */
-	public Employee getEmpById(int testId) {
-		return eMapper.getEmpById(testId);
+	public void updateEmps(String string) {
+		eMapper.updateEmps(string);
+
 	}
 
+	/**
+	 * @param string
+	 * @return
+	 */
+	public int selectcount(String string) {
+		// TODO Auto-generated method stub
+		return eMapper.selectcount(string);
+	}
 
-	
+	/**
+	 * @param string
+	 * @return
+	 */
+	public List<Integer> selectScores(String string) {
+		// TODO Auto-generated method stub
+		return eMapper.selectScores(string);
+	}
 
+	/**
+	 * @param string
+	 * @return
+	 */
+	public List<Integer> selectOtherScores(String string) {
+		// TODO Auto-generated method stub
+		return eMapper.selectOtherScores(string);
+	}
+
+	/**
+	 * @return
+	 */
+	public List<String> selectAllEs() {
+		// TODO Auto-generated method stub
+		return eMapper.selectAllEs();
+	}
+
+	/**
+	 * @param newEmp
+	 * @return
+	 */
+	public Integer selectOneScore(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return eMapper.selectOneScore(map);
+	}
+
+	/**
+	 * @param geteName
+	 * @return
+	 */
+	public List<NewEmp> getEmpsByDepartExcep(String geteName) {
+		// TODO Auto-generated method stub
+		return eMapper.getEmpsByDepartExcep(geteName);
+	}
+
+	/**
+	 * @param map
+	 * @return
+	 */
+	public Integer selectOneScore2(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return eMapper.selectOneScore2(map);
+	}
 }

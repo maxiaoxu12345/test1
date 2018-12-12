@@ -46,6 +46,12 @@
   		<version>4.9</version>
   		<scope>test</scope>
   	</dependency>
+  	<!-- 导出表格 -->
+  	<dependency>
+<groupId>org.apache.poi</groupId>
+<artifactId>poi</artifactId>
+<version>3.6</version>
+</dependency>
   	<!-- Spring所需要的jar包 -->
  	   <dependency>  
            <groupId>org.springframework</groupId>  
@@ -202,7 +208,6 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.9</version>
 		</dependency>
-		
 		<!-- 文件的上传问题包 -->
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
@@ -216,14 +221,7 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>2.4</version>
 		</dependency>
- 
   </dependencies>
-  
-  
-  
-  
-  
-  
   <build>
     <finalName>${project.artifactId}</finalName>
   </build>

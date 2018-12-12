@@ -15,13 +15,14 @@
 	  $(function(){
 		  $("#selDepart").change(function(){
 			  var val=$("#selDepart").val();
-			/*   alert(val); */
-			  window.location.href="${pageContext.request.contextPath}/getEmpsByDepart.action?departName="+val;
+		<!--	alert(val); -->
+			  window.location.href="${pageContext.request.contextPath}/getEmpsByDepartName.action?departName="+val;
 		  });
 		  $(".saveTest").click(function(){
 		   var score= $(this).prev().val();
-			  if(score!="" && score>=0 && score <=100){
+			  if(score!="" && score>=0 && score <=10){
 				 var name=  $(this).parent().prev().prev().text();
+				
 				 var url="${pageContext.request.contextPath}/saveTest.action";
 				 function callback(data){
 						if(data=='1'){
@@ -39,8 +40,6 @@
 					$(this).attr("disabled",true);
 					$(this).prev().attr("disabled",true);
 					return false;
-			  }else{
-				  alert("评分范围为0-100");
 			  }
 			  
 		  });
@@ -53,20 +52,21 @@
  <div style="margin:0 auto; width: 90%; background-color: #F0F0F0;height: 70%">
   <form id="userForm"  action="${ctx}/search.action"   method="post"  enctype="multipart/form-data">
      <!-- 列表数据 -->
-		<c:if test="${!empty emps}">
+		
 			<div class= "table-responsive " style="padding-top: 2px;">
 			<div class="navbar-fixed-top">
-			   <span>选择部门:</span> <select name="ou" id="selDepart" >
-					    <option value="${dep}">
-							${dep}
-						</option>
-					    <c:forEach items="${departs}" var="dep">
-					      <c:if test="${dep.dName ne '系统管理员' }">
-					        <option value="${dep.dName}">
-							 ${dep.dName}
-						    </option>
-					      </c:if>
-					       
+			   <font size="4">&nbsp;&nbsp;&nbsp;&nbsp;其他部门:</font>
+			   <select name="ou" id="selDepart" >
+					    
+					    <c:forEach items="${departs}" var="deps">
+						<c:if test="${deps.dName == dep}">
+						<option selected="selected" value="${deps.dName}" >
+							 ${deps.dName} </c:if>
+						<c:if test="${deps.dName != dep}">
+					        <option  value="${deps.dName}" >
+							 ${deps.dName}</c:if>
+						    
+						  
 					    </c:forEach>
 				  </select>
 			</div>
@@ -81,19 +81,31 @@
 						部门
 					</th>
 					<th class="data_title" style="text-align: center;">
-						评分
+						评分<br><br>(1-4分不合格,5-6分合格,7-8分良好,9-10分优秀)
 					</th>
 				</tr>
 			  </thead>
 				<tbody>
-				<c:forEach var="emp" items="${emps}">
-				   <c:if test="${emp.eName != user.eName }">
+				<c:forEach var="emp" items="${emps}"><!-- Employee集合 -->
+				   <c:if test="${emp.e_name != user.eName }">
 				      <tr>
-						<td class="data_cell" style="text-align: center;">${emp.eName}</td>
-						<td class="data_cell" style="text-align: center;">${emp.depart.dName}</td>				
+						<td class="data_cell" style="text-align: center;">${emp.e_name}</td>
+						<td class="data_cell" style="text-align: center;">${emp.d_name}</td>				
                         <td class="data_cell" style="text-align: center;">
-							<input type="number" min="0" max="100">
-							<input type="button" value="保存" class="saveTest">
+							<select  id="selScore" >
+					  <c:forEach begin="1" end="10" var="score">
+					  <c:if test="${emp.score==score }">
+					   <option value="${score}" selected="selected">
+							 ${score}
+						    </option>
+					  </c:if>
+					  <c:if test="${emp.score!=score }"></c:if>
+					        <option value="${score}">
+							 ${score}
+						    </option>
+					    </c:forEach>
+				  </select>
+							<input type="button" value="保存" class="saveTest"><font color="red">每一项必须点保存，数据才有效</font>
 						</td>
 					</tr>
 				   </c:if>
@@ -101,10 +113,7 @@
 				</tbody>
 			</table>
 			</div>
-		</c:if>
-		<c:if test="${empty emps}">
-			没有任何数据
-		</c:if>
+		
   </form>
   </div>
 </body>

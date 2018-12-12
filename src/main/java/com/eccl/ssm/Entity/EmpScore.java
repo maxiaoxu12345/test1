@@ -12,125 +12,151 @@ package com.eccl.ssm.Entity;
  */
 
 public class EmpScore {
-   private int id;
-   private String director;
-   private String empName;
-   private double scoreAchievement;
-   private double scoreFinish;
-   private double scoreFinance;
-   private double scoreHygiene;
-   private double scoreAttendance;
-   private double scoreBehavior;
-   
-   private double scorePlan;
-   private double scoreContribution;
-   private double scoreFault;
-public EmpScore() {
-	super();
-}
-public EmpScore(int id, String director, String empName, double scoreAchievement, double scoreFinish,
-		double scoreFinance, double scoreHygiene, double scoreAttendance, double scoreBehavior, double scorePlan,
-		double scoreContribution, double scoreFault) {
-	super();
-	this.id = id;
-	this.director = director;
-	this.empName = empName;
-	this.scoreAchievement = scoreAchievement;
-	this.scoreFinish = scoreFinish;
-	this.scoreFinance = scoreFinance;
-	this.scoreHygiene = scoreHygiene;
-	this.scoreAttendance = scoreAttendance;
-	this.scoreBehavior = scoreBehavior;
-	this.scorePlan = scorePlan;
-	this.scoreContribution = scoreContribution;
-	this.scoreFault = scoreFault;
-}
-public int getId() {
-	return id;
-}
-public void setId(int id) {
-	this.id = id;
-}
-public String getDirector() {
-	return director;
-}
-public void setDirector(String director) {
-	this.director = director;
-}
+	private int id;
+	private String director;
+	private String empName;
+	private int scoreAchievement;
+	private int scoreFinish;
+	private int scoreFinance;
+	private int scoreHygiene;
+	private int scoreAttendance;
+	private int scoreBehavior;
+	private int scorePlan;
+	private int scoreContribution;
+	private int scoreFault;
 
-public String getEmpName() {
-	return empName;
-}
-public void setEmpName(String empName) {
-	this.empName = empName;
-}
-public double getScoreAchievement() {
-	return scoreAchievement;
-}
-public void setScoreAchievement(double scoreAchievement) {
-	this.scoreAchievement = scoreAchievement;
-}
-public double getScoreFinish() {
-	return scoreFinish;
-}
-public void setScoreFinish(double scoreFinish) {
-	this.scoreFinish = scoreFinish;
-}
-public double getScoreFinance() {
-	return scoreFinance;
-}
-public void setScoreFinance(double scoreFinance) {
-	this.scoreFinance = scoreFinance;
-}
-public double getScoreHygiene() {
-	return scoreHygiene;
-}
-public void setScoreHygiene(double scoreHygiene) {
-	this.scoreHygiene = scoreHygiene;
-}
-public double getScoreAttendance() {
-	return scoreAttendance;
-}
-public void setScoreAttendance(double scoreAttendance) {
-	this.scoreAttendance = scoreAttendance;
-}
-public double getScoreBehavior() {
-	return scoreBehavior;
-}
-public void setScoreBehavior(double scoreBehavior) {
-	this.scoreBehavior = scoreBehavior;
-}
-public double getScorePlan() {
-	return scorePlan;
-}
-public void setScorePlan(double scorePlan) {
-	this.scorePlan = scorePlan;
-}
-public double getScoreContribution() {
-	return scoreContribution;
-}
-public void setScoreContribution(double scoreContribution) {
-	this.scoreContribution = scoreContribution;
-}
-public double getScoreFault() {
-	return scoreFault;
-}
-public void setScoreFault(double scoreFault) {
-	this.scoreFault = scoreFault;
-}
-@Override
-public String toString() {
-	return "EmpScore [id=" + id + ", director=" + director + ", empName=" + empName + ", scoreAchievement="
-			+ scoreAchievement + ", scoreFinish=" + scoreFinish + ", scoreFinance=" + scoreFinance + ", scoreHygiene="
-			+ scoreHygiene + ", scoreAttendance=" + scoreAttendance + ", scoreBehavior=" + scoreBehavior
-			+ ", scorePlan=" + scorePlan + ", scoreContribution=" + scoreContribution + ", scoreFault=" + scoreFault
-			+ "]";
-}
-   
-   
-   
-   
-   
-   
-   
+	private int scoreOntime;
+	private int scoreAdd;
+	private int scoreSub;
+
+	public int getScoreOntime() {
+		return scoreOntime;
+	}
+
+	public void setScoreOntime(int scoreOntime) {
+		this.scoreOntime = scoreOntime;
+	}
+
+	public int getScoreAdd() {
+		return scoreAdd;
+	}
+
+	public void setScoreAdd(int scoreAdd) {
+		this.scoreAdd = scoreAdd;
+	}
+
+	public int getScoreSub() {
+		return scoreSub;
+	}
+
+	public void setScoreSub(int scoreSub) {
+		this.scoreSub = scoreSub;
+	}
+
+	public int getScoreFault() {
+		return scoreFault;
+	}
+
+	public void setScoreFault(int scoreFault) {
+		this.scoreFault = scoreFault;
+	}
+
+	public int getScoreContribution() {
+		return scoreContribution;
+	}
+
+	public void setScoreContribution(int scoreContribution) {
+		this.scoreContribution = scoreContribution;
+	}
+
+	public int getScorePlan() {
+		return scorePlan;
+	}
+
+	public void setScorePlan(int scorePlan) {
+		this.scorePlan = scorePlan;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getDirector() {
+		return director;
+	}
+
+	public void setDirector(String director) {
+		this.director = director;
+	}
+
+	public String getEmpName() {
+		return empName;
+	}
+
+	public void setEmpName(String empName) {
+		this.empName = empName;
+	}
+
+	public int getScoreAchievement() {
+		return scoreAchievement;
+	}
+
+	public void setScoreAchievement(int scoreAchievement) {
+		this.scoreAchievement = scoreAchievement;
+	}
+
+	public int getScoreFinish() {
+		return scoreFinish;
+	}
+
+	public void setScoreFinish(int scoreFinish) {
+		this.scoreFinish = scoreFinish;
+	}
+
+	public int getScoreFinance() {
+		return scoreFinance;
+	}
+
+	public void setScoreFinance(int scoreFinance) {
+		this.scoreFinance = scoreFinance;
+	}
+
+	public int getScoreHygiene() {
+		return scoreHygiene;
+	}
+
+	public void setScoreHygiene(int scoreHygiene) {
+		this.scoreHygiene = scoreHygiene;
+	}
+
+	public int getScoreAttendance() {
+		return scoreAttendance;
+	}
+
+	public void setScoreAttendance(int scoreAttendance) {
+		this.scoreAttendance = scoreAttendance;
+	}
+
+	public int getScoreBehavior() {
+		return scoreBehavior;
+	}
+
+	public void setScoreBehavior(int scoreBehavior) {
+		this.scoreBehavior = scoreBehavior;
+	}
+
+	@Override
+	public String toString() {
+		return "EmpScore [id=" + id + ", director=" + director + ", empName=" + empName + ", scoreAchievement="
+				+ scoreAchievement + ", scoreFinish=" + scoreFinish + ", scoreFinance=" + scoreFinance
+				+ ", scoreHygiene=" + scoreHygiene + ", scoreAttendance=" + scoreAttendance + ", scoreBehavior="
+				+ scoreBehavior + ", scorePlan=" + scorePlan + ", scoreContribution=" + scoreContribution
+				+ ", scoreFault=" + scoreFault + ", scoreOntime=" + scoreOntime + ", scoreAdd=" + scoreAdd
+				+ ", scoreSub=" + scoreSub + "]";
+	}
+
 }

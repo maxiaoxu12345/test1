@@ -12,7 +12,6 @@
 	<script src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 </head>
 <body>
-   <!-- <h1>结果</h1> -->
    
    <table  class="table table-striped" id="t1"  style="margin: 20px -10px 0 -7px;">
 			  <thead >
@@ -33,23 +32,42 @@
 						关键事件得分
 					</th>
 					<th class="data_title" style="text-align: center;">
-						最终得分
+						其他员工评价得分
+					</th>
+					<th class="data_title" style="text-align: center;">
+						其他经理评价得分
+					</th>
+					<th class="data_title" style="text-align: center;">
+						最终得分(保留两位)
+					</th>
+					<th class="data_title" style="text-align: center;">
+						等级
 					</th>
 				</tr>
 			  </thead>
 			  <tbody>
 			       <c:forEach items="${emps}" var="emp">
-			         <c:if test="${emp.eName ne 'admin' }">
+			         
 			         <tr>
                         <td class="data_cell" style="text-align: center;">${emp.eName}</td>
+                         
                         <td class="data_cell" style="text-align: center;">${emp.depart.dName}</td>
-                        <td class="data_cell" style="text-align: center;">${emp.businessScore}</td>
-                        <td class="data_cell" style="text-align: center;">${emp.manageScore}</td>
-                        <td class="data_cell" style="text-align: center;">${emp.eventScore}</td>
-                        <td class="data_cell" style="text-align: center;">${emp.totalScore}</td>
+                        <td class="data_cell" style="text-align: center;">${emp.bussinessScore}</td>
+                        <td class="data_cell" style="text-align: center;">${emp.managersScore}</td>
+                        <td class="data_cell" style="text-align: center;">${emp.keyScore}</td>
+                        <td class="data_cell" style="text-align: center;">${emp.empsScore}</td>
+                         <td class="data_cell" style="text-align: center;">${emp.otherScore}</td>
+                          <td class="data_cell" style="text-align: center;">${emp.finalScore}</td>
+                          <td class="data_cell" style="text-align: center;">
+                          <c:if test="${emp.finalScore >=9 && emp.finalScore<=10}">A&nbsp;优秀</c:if>
+                          <c:if test="${emp.finalScore >=7 && emp.finalScore<9}">B&nbsp;良好</c:if>
+                          <c:if test="${emp.finalScore >=5 && emp.finalScore<7}">C&nbsp;合格</c:if>
+                          <c:if test="${emp.finalScore >=1 && emp.finalScore<5}">D&nbsp;不合格</c:if>
+                          	
+                          </td>
                      </tr>
    
-                     </c:if>
+                     
                    </c:forEach>
 			  </tbody>
 			  
