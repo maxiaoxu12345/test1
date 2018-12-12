@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -626,21 +625,6 @@ public class EmployeeController {
 		mView.addObject("userId", employee.geteJobType());
 
 		return mView;
-	}
-
-	/**
-	 * 建表
-	 * 
-	 * @return
-	 */
-	@Test
-	@RequestMapping("/test.action")
-	public void name() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("A", 2);
-		map.put("B", 3);
-		map.put("c", "付平");
-		eService.InsertA(map);
 	}
 
 	/**
