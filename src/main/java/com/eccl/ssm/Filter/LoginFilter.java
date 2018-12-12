@@ -40,7 +40,7 @@ public class LoginFilter implements Filter {
 		 */
 		String requestURI = req.getRequestURI();
 		/* System.out.println("请求路径:" + requestURI); */
-		if (!requestURI.equals("/ecclEmpTest/login.action") && !requestURI.equals("/ecclEmpTest/index.jsp")) {
+		if (!requestURI.equals("/ecclEmpTest/login.action")) {
 			if (null == req.getSession().getAttribute("user")) {
 				if (true == req.getSession(true).isNew()) {
 
