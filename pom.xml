@@ -7,9 +7,6 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>ecclEmpTest Maven Webapp</name>
   <url>http://maven.apache.org</url>
-  
-  
-  
 <properties>  
         <!-- spring版本号 -->  
         <spring.version>4.0.0.RELEASE</spring.version>  

@@ -31,18 +31,22 @@
 			                <!--  <li class="navLi"><a class="navbar-brand" href="#" id="exportTestResult">导出结果</a></li> -->
 			              </c:when>
 			               <c:when test="${user.eName eq '廉雪' }">
-			                 <li class="navLi"><a class="navbar-brand" href="#" id="empTestExcep">其他部门评分（选填）</a></li>
-			                 <li class="navLi"><a class="navbar-brand" href="#" id="directorTest">本部门评分（必填）</a></li>
+			                
+			                 <li class="navLi"><a class="navbar-brand" href="#" id="directorTest">为本部门员工评分（必填）</a></li>
+			                  <li class="navLi"><a class="navbar-brand" href="#" id="empTestExcep">为其他部门员工评分（选填）</a></li>
 			                 <li class="navLi"><a class="navbar-brand" href="#" id="findTestResult">查询评测结果</a></li>
 			                 <li class="navLi"><a class="navbar-brand" href="#" id="js-export">导出Excel</a></li>
 			              </c:when>
 			              <c:when test="${user.eJobType eq '经理' }">
-			                  <li class="navLi"><a class="navbar-brand" href="#" id="empTestExcep">其他部门评分（选填）</a></li>
-			                  <li class="navLi"><a class="navbar-brand" href="#" id="directorTest">本部门评分（必填）</a></li>
+			                  
+			                  <li class="navLi"><a class="navbar-brand" href="#" id="directorTest">为本部门员工评分（必填）</a></li>
+			              <li class="navLi"><a class="navbar-brand" href="#" id="empTestExcep">为其他部门员工评分（选填）</a></li>
 			              </c:when>
+			              
 			              <c:when test="${user.eJobType eq '副经理' }">
-			                   <li class="navLi"><a class="navbar-brand" href="#" id="empTestExcep">其他部门评分（选填）</a></li>
-			                  <li class="navLi"><a class="navbar-brand" href="#" id="directorTest">本部门评分（必填）</a></li>
+			                  
+			                  <li class="navLi"><a class="navbar-brand" href="#" id="directorTest">为本部门员工评分（必填）</a></li>
+			                   <li class="navLi"><a class="navbar-brand" href="#" id="empTestExcep">为其他部门员工评分（选填）</a></li>
 			              </c:when>
 			              <c:otherwise>
 			                    <li class="navLi"><a class="navbar-brand" href="#" id="empTest">员工互评</a></li>

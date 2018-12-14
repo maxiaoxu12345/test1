@@ -39,6 +39,7 @@ public class LoginFilter implements Filter {
 			System.out.println(req.getSession().getAttribute("user"));
 			if (null == req.getSession().getAttribute("user")) {
 				resp.sendRedirect(req.getContextPath() + "/index.jsp");
+				System.out.println(req.getContextPath());
 			}
 		}
 		chain.doFilter(request, response);
