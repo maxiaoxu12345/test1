@@ -35,7 +35,7 @@ public class LoginFilter implements Filter {
 		System.out.println("111");
 		String requestURI = req.getRequestURI();
 		System.out.println("请求路径:" + requestURI);
-		if (!requestURI.equals("/login.action")) {
+		if (!requestURI.equals("/ecclEmpTest/login.action")) {
 			System.out.println(req.getSession().getAttribute("user"));
 			if (null == req.getSession().getAttribute("user")) {
 				resp.sendRedirect(req.getContextPath() + "/index.jsp");
